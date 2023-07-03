@@ -1,0 +1,117 @@
+$red: #ED254E;
+$yellow: #F9DC5C;
+$white: #F4FFFD;
+$blue: #202C59;
+$green: #21897E;
+
+button {
+    display: inline-block;
+    padding: .75rem 1.25rem;
+    border-radius: 10rem;
+    color: $white;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: .15rem;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+    cursor: pointer;
+
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        border-radius: 10rem;
+        z-index: -2;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: darken(gray, 15%);
+        transition: all .3s;
+        border-radius: 10rem;
+        z-index: -1;
+    }
+
+    &:hover {
+        color: $white;
+
+        &:before {
+            width: 100%;
+        }
+    }
+
+    &.red {
+        &:after {
+            background-color: $red;
+        }
+
+        &:before {
+            background-color: darken($red, 15%);
+        }
+    }
+
+    &.yellow {
+        &:after {
+            background-color: $yellow;
+        }
+
+        &:before {
+            background-color: darken($yellow, 15%);
+        }
+    }
+
+    &.white {
+        color: black;
+        &:after {
+            background-color: $white;
+        }
+
+        &:before {
+            background-color: darken($white, 15%);
+        }
+    }
+
+    &.blue {
+        &:after {
+            background-color: $blue;
+        }
+
+        &:before {
+            background-color: darken($blue, 15%);
+        }
+    }
+
+    &.green {
+        &:after {
+            background-color: $green;
+        }
+
+        &:before {
+            background-color: darken($green, 15%);
+        }
+    }
+
+    &.small {
+        padding: .5rem 1rem;
+        font-size: .8rem;
+    }
+
+    &.large {
+        padding: 1rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+
+}
