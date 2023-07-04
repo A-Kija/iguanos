@@ -65,6 +65,7 @@ button {
     }
 
     &.yellow {
+        color: black;
         &:after {
             background-color: $yellow;
         }

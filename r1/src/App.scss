@@ -42,6 +42,8 @@
   width: 100%;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 50px 100px;
+  box-sizing: border-box;
   .sq {
     width: 200px;
     height: 200px;
@@ -56,10 +58,10 @@
     color: #fff;
     border-radius: 10px;
     &.small {
-      width: 80px;
-      height: 80px;
-      margin: 2px;
-      border-radius: 4px;
+      width: 100px;
+      height: 100px;
+      margin: 4px;
+      border-radius: 5px;
     }
   }
 }
