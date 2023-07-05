@@ -123,3 +123,24 @@ label.checkbox {
     }
   }
 }
+
+label.radio {
+  line-height: 40px;
+  cursor: pointer;
+  &::before {
+    content: '\25CE';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    line-height: 40px;
+    margin-left: 20px;
+    color: gray
+  }
+  &.checked {
+    &::before {
+      content: '\25C9';
+      color: orangered;
+    }
+  }
+}
