@@ -102,3 +102,24 @@ select {
   color: #fff;
   min-width: 200px;
 }
+
+label.checkbox {
+  line-height: 40px;
+  cursor: pointer;
+  &::before {
+    content: '\2610';
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    line-height: 40px;
+    margin-left: 20px;
+    color: gray
+  }
+  &.checked {
+    &::before {
+      content: '\2611';
+      color: orangered;
+    }
+  }
+}
