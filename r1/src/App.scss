@@ -88,3 +88,17 @@ input[type="text"] {
   background-color: skyblue;
   color: #fff;
 }
+
+select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  outline: none;
+  background-color: skyblue;
+  color: #fff;
+  min-width: 200px;
+}

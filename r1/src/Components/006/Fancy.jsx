@@ -2,7 +2,7 @@ import { useState } from 'react';
 function Fancy() {
 
     const [color, setColor] = useState('#ffffff');
-    const [range, setRange] = useState(0);
+    const [range, setRange] = useState('0');
 
     const handleChangeColor = e => {
         setColor(e.target.value);
@@ -11,8 +11,6 @@ function Fancy() {
     const handleChangeRange = e => {
         setRange(e.target.value);
     }
-
-
 
     return (
         <fieldset>

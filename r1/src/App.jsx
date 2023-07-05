@@ -2,6 +2,7 @@ import './App.scss';
 import Fancy from './Components/006/Fancy';
 import Input from './Components/006/Input';
 import Input2 from './Components/006/Input2';
+import Select from './Components/006/Select';
 import './buttons.scss';
 
 
@@ -10,7 +11,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         
-        
+        <Select />
         <Fancy />
         <Input2 />
         <Input />
