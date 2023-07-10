@@ -4,7 +4,7 @@ $white: #F4FFFD;
 $blue: #202C59;
 $green: #21897E;
 
-button {
+button.nice {
     display: inline-block;
     padding: .75rem 1.25rem;
     border-radius: 10rem;
@@ -109,6 +109,10 @@ button {
     &.small {
         padding: .5rem 1rem;
         font-size: .8rem;
+        min-width: 80px;
+        .no {
+            margin: 0;
+        }
     }
 
     &.large {
