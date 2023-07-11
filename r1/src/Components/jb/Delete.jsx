@@ -1,4 +1,4 @@
-import { KEY } from '../../App';
+import { KEY } from '../../jb';
 import { destroy } from '../../Functions/localStarage';
 
 export default function Delete({ setDeleteData, deleteData, setLastUpdate }) {

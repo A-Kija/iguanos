@@ -1,4 +1,4 @@
-import { KEY } from '../../App';
+import { KEY } from '../../jb';
 import { update } from '../../Functions/localStarage';
 import { useState, useEffect } from 'react';
 
