@@ -15,6 +15,11 @@
 //     echo "<b style=\"color:{$animal['color']}\">{$animal['name']} </b>";
 // }
 
+if (!file_exists(__DIR__ . '\animals.txt')) {
+    echo 'File does not exist!';
+    die;
+}
+
 
 $animals = unserialize
 (
