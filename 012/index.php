@@ -17,7 +17,7 @@
 
 if (!file_exists(__DIR__ . '\animals.txt')) {
     echo 'File does not exist!';
-    die;
+    require __DIR__ . '\data.php';
 }
 
 

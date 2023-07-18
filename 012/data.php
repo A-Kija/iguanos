@@ -13,9 +13,9 @@ $niceAnimals = [
     ['name' => 'sheep', 'color' => 'lightgrey']
 ];
 
-$niceAnimalsJson = json_encode($niceAnimals);
+// $niceAnimalsJson = json_encode($niceAnimals);
 
-file_put_contents(__DIR__ . '\animals.json', $niceAnimalsJson);
+// file_put_contents(__DIR__ . '\animals.json', $niceAnimalsJson);
 
 
 $niceAnimalsSerealized = serialize($niceAnimals);
