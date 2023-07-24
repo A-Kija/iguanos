@@ -7,12 +7,23 @@ if (file_exists(__DIR__ . '/animals.json')) {
 // post 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $animals[] = [
-        'name' => $_POST['name'],
-    ];
+    if ($_GET['action'] == 'delete') {
+        foreach ($animals as $key => $animal) {
+            if ($animal['id'] == $_GET['id']) {
+                unset($animals[$key]);
+                break;
+            }
+        }
+    }
+
+    if ($_GET['action'] == 'create') {
+        $animals[] = [
+            'name' => $_POST['name'],
+            'id' => uniqid(),
+        ];
+    }
 
     file_put_contents(__DIR__ . '/animals.json', json_encode($animals));
-
     header('Location: http://localhost/iguanos/015/');
     die;
 }
@@ -35,6 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php foreach ($animals as $animal): ?>
                 <li>
                     <?= $animal['name'] ?>
+                    <form action="http://localhost/iguanos/015/?action=delete&id=<?= $animal['id'] ?>" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
                 </li>
             <?php endforeach ?>
         <?php else: ?>
@@ -45,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </ul>
     <fieldset>
         <legend>Add animal</legend>
-        <form action="http://localhost/iguanos/015/" method="post">
+        <form action="http://localhost/iguanos/015/?action=create" method="post">
             <input type="text" name="name">
             <button type="submit">Add</button>
         </form>
