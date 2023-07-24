@@ -1,5 +1,5 @@
 <?php
-$color = isset($_GET['color']) ? $_GET['color'] : '000000';
+$color = isset($_GET['color']) ? $_GET['color'] : 'black';
 ?>
 <!DOCTYPE html>
 <html lang="en">
