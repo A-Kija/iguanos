@@ -1,0 +1,36 @@
+ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+ul li {
+    list-style: none;
+    padding: 20px;
+    border: 3px dotted #ccc;
+    width: 350px;
+}
+
+fieldset {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+fieldset.edit {
+    display: none;
+}
+
+input[type="checkbox"]:checked + fieldset.edit {
+    display: block;
+}
+
+.message {
+    color: skyblue;
+    font-weight: bold;
+    padding: 10px;
+    margin: 20px;
+    border: 1px solid skyblue;
+}
