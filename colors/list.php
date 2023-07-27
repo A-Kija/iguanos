@@ -16,6 +16,7 @@ require __DIR__ . '/top.php';
                 <?= $color['name'] ?>
             </div>
             <a class="red" href="<?= URL ?>delete.php?id=<?= $color['id'] ?>">Delete</a>
+            <a class="green" href="<?= URL ?>edit.php?id=<?= $color['id'] ?>">Edit</a>
         </div>
     <?php endforeach ?>
     </div>
