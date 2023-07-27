@@ -22,7 +22,6 @@ if ($color === false) {
     die;
 }
 
-
 $title = 'Colors - Confirm delete';
 require __DIR__ . '/top.php';
 ?>
@@ -30,9 +29,10 @@ require __DIR__ . '/top.php';
 <div class="delete">
     <div class="confirm-delete confirm">
         <h3>Are you sure you want to delete this color?</h3>
-            <div class="color" style="background-color: <?= $color['hex'] ?>">
-                <?= $color['name'] ?>
-            </div>
+        <h6><?= $color['name'] ?></h6>
+        <div class="color" style="background-color: <?= $color['hex'] ?>">
+            <?= $color['name'] ?>
+        </div>
         <div class="buttons">
             <form action="<?= URL ?>destroy.php?id=<?= $color['id'] ?>" method="post">
                 <button class="red" type="submit">Yes, delete!</button>

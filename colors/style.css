@@ -170,3 +170,8 @@ button.green, a.green {
     margin: 10px 0;
     gap: 10px;
 }
+
+h6 {
+    margin: 0;
+    font-size: 18px;
+}

@@ -34,7 +34,8 @@ $colors = json_decode(file_get_contents(__DIR__ . '/colors.json'), 1);
 $color = [
     'id' => uniqid(),
     'name' => $name,
-    'hex' => $hex
+    'hex' => $hex,
+    'title' => getColorName($hex)
 ];
 
 $colors[] = $color;

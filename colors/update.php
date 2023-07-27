@@ -44,7 +44,8 @@ foreach ($colors as $key => $c) {
         $colors[$key] = [
             'id' => $c['id'],
             'name' => $name,
-            'hex' => $hex
+            'hex' => $hex,
+            'title' => getColorName($hex)
         ];
         file_put_contents(__DIR__ . '/colors.json', json_encode($colors));
         break;

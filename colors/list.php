@@ -12,8 +12,9 @@ require __DIR__ . '/top.php';
     <div class="colors-list">
     <?php foreach ($colors as $color) : ?>
         <div class="color-bin">
+            <h6><?= $color['name'] ?></h6>
             <div class="color" style="background-color: <?= $color['hex'] ?>">
-                <?= $color['name'] ?>
+                <?= $color['title'] ?? 'no title' ?>
             </div>
             <a class="red" href="<?= URL ?>delete.php?id=<?= $color['id'] ?>">Delete</a>
             <a class="green" href="<?= URL ?>edit.php?id=<?= $color['id'] ?>">Edit</a>
