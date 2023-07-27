@@ -1,5 +1,13 @@
 <?php
 require __DIR__ . '/bootstrap.php';
+if (!isset($_SESSION['login']) || $_SESSION['login'] != 1) {
+    $_SESSION['message'] = [
+        'text' => 'Please login first!',
+        'type' => 'crimson'
+    ];
+    header('Location: ' . URL . 'login.php');
+    die;
+}
 if (!isset($_GET['id'])) {
     header('Location: ' . URL . 'list.php');
     die;

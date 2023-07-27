@@ -1,5 +1,13 @@
 <?php
 require __DIR__ . '/bootstrap.php';
+if (!isset($_SESSION['login']) || $_SESSION['login'] != 1) {
+    $_SESSION['message'] = [
+        'text' => 'Please login first!',
+        'type' => 'crimson'
+    ];
+    header('Location: ' . URL . 'login.php');
+    die;
+}
 $title = 'Colors - Create color';
 require __DIR__ . '/top.php';
 $old = $_SESSION['old_values'] ?? [];

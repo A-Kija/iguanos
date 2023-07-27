@@ -30,7 +30,17 @@ nav ul li a:hover {
     color: #ccc;
 }
 
-.home, .delete, .create {
+nav ul li.small button {
+    font-size: 16px;
+    line-height: 32px;
+}
+
+nav ul li.small a {
+    font-size: 16px;
+    line-height: 46px;
+}
+
+.home, .delete, .create, .login {
     width: 100%;
     height: calc(100vh - 100px);
     display: flex;
@@ -103,6 +113,10 @@ button.green, a.green {
     background-color: limegreen;
 }
 
+button.blue, a.blue {
+    background-color: skyblue;
+}
+
 .buttons {
     display: flex;
     justify-content: center;
@@ -150,6 +164,7 @@ button.green, a.green {
     display: none;
 }
 
+.login form,
 .create form {
     width: 400px;
     background-color: #fff;
@@ -160,6 +175,10 @@ button.green, a.green {
     align-items: center;
     flex-direction: column;
     padding: 20px;
+}
+
+.login form label {
+    width: 80px;
 }
 
 .form-row {
