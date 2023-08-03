@@ -1,12 +1,10 @@
 <?php
 
 
-abstract class Writer
+abstract class Writer implements WriterPlan
 {
     public function write($text)
     {
         echo '<h1 style="color:'.$this->randomColor().';">' . $text . '</h1>';
     }
-
-    public abstract function randomColor();
 }
