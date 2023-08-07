@@ -1,0 +1,17 @@
+{
+    "name": "arvyd/023",
+    "description": "Bebras Garden",
+    "autoload": {
+        "psr-4": {
+            "": "src/",
+            "Lina\\": "Lina/"
+        }
+    },
+    "authors": [
+        {
+            "name": "A-Kija",
+            "email": "arvydas.kijakauskas@gmail.com"
+        }
+    ],
+    "require": {}
+}
