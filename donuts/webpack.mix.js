@@ -1,3 +1,3 @@
 let mix = require('laravel-mix');
 
-mix.sass('resourses/sass/app.scss', 'public');
+mix.sass('resources/sass/app.scss', 'public');
