@@ -4,7 +4,8 @@ body {
     font-family: 'Noto Sans Zanabazar Square', sans-serif;
 }
 
-h1 {
-    color: orange;
-    font-size: 50px;
+
+ul.navbar-nav {
+    flex-direction: row;
+    gap: 20px;
 }

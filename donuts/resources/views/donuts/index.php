@@ -1,1 +1,17 @@
-<h1>𑨮𑨊𑨝𑩇𑨙𑨁𑨝𑩇𑨪𑨊𑨪𑨰𑩇𑨭𑨊𑨙𑨝𑩇𑨙𑩇𑨫𑩇𑨪𑨊𑨘𑨊𑨸 𑨀𑨊𑨜𑨊𑨫𑨹</h1>
+<h1>Donuts List</h1>
+<div class="container">
+  <div class="row">
+    <?php foreach ($donuts as $donut) : ?>
+        <div class="col-4">
+            <div class="one-donut">
+                <div class="title">
+                    <?= $donut['title'] ?>
+                </div>
+                <div class="donut">
+                    <?= $donut['title'] ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+  </div>
+</div>
