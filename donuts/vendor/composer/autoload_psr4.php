@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Donuts\\' => array($baseDir . '/app'),
     'App\\' => array($baseDir . '/app'),
 );

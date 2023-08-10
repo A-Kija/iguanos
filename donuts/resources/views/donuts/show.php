@@ -1,19 +1,12 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1>Donuts List</h1>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <?php foreach ($donuts as $donut) : ?>
-        <div class="col-md-4 col-sm-12">
+  <div class="row  justify-content-center">
+    <div class="col-5">
+        <div class="card mt-5">
+            <div class="card-header">
+            <?= $donut['title'] ?>
+            </div>
+            <div class="card-body">
             <div class="one-donut">
-                <div class="title">
-                    <?= $donut['title'] ?>
-                </div>
                 <div class="donut">
                     <?php foreach($coatings as $coating) : ?>
                         <?php if ($coating['id'] == $donut['coating']) : ?>
@@ -24,13 +17,17 @@
                         <?php endif ?>
                     <?php endforeach ?>
                 </div>
+                <div class="desc">
+                <?= $donut['desc'] ?>
+                </div>
                 <div class="buttons">
-                    <a href="<?= URL . 'donuts/show/' . $donut['id'] ?>" class="btn btn-outline-secondary">VIEW</a>
-                    <a href="<?= URL . 'donuts/edit/' . $donut['id'] ?>" class="btn btn-outline-secondary">EDIT</a>
-                    <a href="<?= URL . 'donuts/delete/' . $donut['id'] ?>" class="btn btn-outline-secondary">DELETE</a>
+                    <a href="<?= URL . 'donuts/' ?>" class="btn btn-outline-info">ALL</a>
+                    <a href="<?= URL . 'donuts/edit/' . $donut['id'] ?>" class="btn btn-outline-success">EDIT</a>
+                    <a href="<?= URL . 'donuts/delete/' . $donut['id'] ?>" class="btn btn-outline-danger">DELETE</a>
                 </div>
             </div>
+            </div>
         </div>
-    <?php endforeach ?>
+    </div>
   </div>
 </div>
