@@ -2,6 +2,10 @@
 namespace Donuts;
 
 use Donuts\Controllers\DonutsController as DC;
+use Donuts\Controllers\LoginController as L;
+use Donuts\Controllers\HomeController as H;
+use Donuts\Auth;
+use Donuts\Messages;
 
 class App {
 
@@ -17,9 +21,34 @@ class App {
         array_shift($uri);
         $method = $_SERVER['REQUEST_METHOD'];
 
+        if ($method == 'GET' && count($uri) == 1 && $uri[0] == '') {
+            return (new H)->index();
+        }
+
+        if ($method == 'GET' && count($uri) == 1 && $uri[0] == 'login') {
+            return (new L)->showLogin();
+        }
+
+        if ($method == 'POST' && count($uri) == 1 && $uri[0] == 'login') {
+            return (new L)->login();
+        }
+
+        if ($method == 'POST' && count($uri) == 1 && $uri[0] == 'logout') {
+            return (new L)->logout();
+        }
+
+        // Check if user is logged in
+        if ($uri[0] == 'donuts' && !Auth::check()) {
+            return self::redirect('login');
+        }
+
+
+        // Donuts routes
+
         if ($method == 'GET' && count($uri) == 1 && $uri[0] == 'donuts') {
             return (new DC)->index();
         }
+
         if ($method == 'GET' && count($uri) == 2 && $uri[0] == 'donuts' && $uri[1] == 'create') {
             return (new DC)->create();
         }
@@ -60,6 +89,9 @@ class App {
             extract($data);
         }
 
+        $user = Auth::user();
+        $messages = Messages::get();
+
         ob_start();
 
         require ROOT . 'resources/views/layout/top.php';
@@ -67,6 +99,8 @@ class App {
         require ROOT . 'resources/views/' . $path . '.php';
 
         require ROOT . 'resources/views/layout/bottom.php';
+
+        clearFlash();
 
         return ob_get_clean();
     }

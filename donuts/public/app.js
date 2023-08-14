@@ -15,6 +15,12 @@ if (document.querySelector('#--hole')) {
     text.innerText = input.value;
   });
 }
+document.querySelectorAll('.--msgs .alert').forEach(function (alert) {
+  alert.querySelector('button').addEventListener('click', function (e) {
+    e.preventDefault();
+    alert.remove();
+  });
+});
 
 /***/ }),
 

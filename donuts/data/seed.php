@@ -39,4 +39,36 @@ for ($i = 0; $i < 12; $i++) {
 $donuts = json_encode($donuts);
 file_put_contents(__DIR__ . '/donuts.json', $donuts);
 
+
+$users = [
+    [
+        'id' => 1,
+        'name' => 'Briedis',
+        'email' => 'briedis@gmail.com',
+        'password' => md5('123'),
+        'color' => 'crimson'
+    ],
+    [
+        'id' => 2,
+        'name' => 'Bebras',
+        'email' => 'bebras@gmail.com',	
+        'password' => md5('123'),
+        'color' => 'indigo'
+    ],
+    [
+        'id' => 3,
+        'name' => 'Barsukas',
+        'email' => 'arsukas@gmail.com',
+        'password' => md5('123'),
+        'color' => 'darkorange'
+    ]
+];
+
+$users = json_encode($users);
+file_put_contents(__DIR__ . '/users.json', $users);
+
+
+
+
+
 echo 'Done' . PHP_EOL;

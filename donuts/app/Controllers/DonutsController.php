@@ -3,6 +3,7 @@ namespace Donuts\Controllers;
 
 use Donuts\App;
 use Donuts\DB\FileDB;
+use Donuts\Messages;
 
 class DonutsController
 {
@@ -40,6 +41,22 @@ class DonutsController
 
     public function store()
     {
+        
+        $errors = false;
+        if (!isset($_POST['title']) || strlen($_POST['title']) < 3) {
+            Messages::add('Donut title must be at least 3 characters long', 'danger');
+            $errors = true;
+        }
+        if (!isset($_POST['desc']) || strlen($_POST['desc']) < 3) {
+            Messages::add('Donut description must be at least 3 characters long', 'danger');
+            $errors = true;
+        }
+
+        if ($errors) {
+            flash();
+            return App::redirect('donuts/create');
+        }
+        
         $data = [
             'title' => $_POST['title'],
             'coating' => $_POST['coating'],
@@ -92,6 +109,7 @@ class DonutsController
         ];
 
         (new FileDB('donuts'))->update($id, $data);
+        Messages::add('Donut updated');
 
         return App::redirect('donuts');
     }

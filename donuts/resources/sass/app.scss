@@ -4,6 +4,40 @@ body {
     font-family: 'Noto Sans Zanabazar Square', sans-serif;
 }
 
+.bin {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.messages {
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    z-index: 999;
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 10px;
+    .alert {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        .close {
+            cursor: pointer;
+        }
+    }
+}
+
 h1 {
     font-size: 36px;
     font-weight: 600;
