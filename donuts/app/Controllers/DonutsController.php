@@ -67,12 +67,24 @@ class DonutsController
         
         (new FileDB('donuts'))->create($data);
 
+        Messages::add('Donut created', 'success');
+
         return App::redirect('donuts');
     }
 
     public function delete($id)
     {
+        if (!is_numeric($id) || !is_integer($id + 0)) {
+            http_response_code(404);
+            return App::viewError('404');
+        }
+        
         $donut = (new FileDB('donuts'))->show($id);
+
+        if (!$donut) {
+            http_response_code(404);
+            return App::viewError('404');
+        }
 
         return App::view('donuts/delete', [
             'pageTitle' => 'Confirm delete',
@@ -82,14 +94,34 @@ class DonutsController
 
     public function destroy($id)
     {
+
+        // All check $id
+        // if (!is_numeric($id) || !is_integer($id + 0)) {
+        //     http_response_code(404);
+        //     return App::viewError('404');
+        // }
+
         (new FileDB('donuts'))->delete($id);
+
+        Messages::add('Donut deleted', 'success');
 
         return App::redirect('donuts');
     }
 
     public function edit($id)
     {
+        
+        if (!is_numeric($id) || !is_integer($id + 0)) {
+            http_response_code(404);
+            return App::viewError('404');
+        }
+        
         $donut = (new FileDB('donuts'))->show($id);
+
+        if (!$donut) {
+            http_response_code(404);
+            return App::viewError('404');
+        }
 
         return App::view('donuts/edit', [
             'pageTitle' => 'Edit donut',
@@ -100,6 +132,23 @@ class DonutsController
 
     public function update($id)
     {
+        
+        $errors = false;
+        if (!isset($_POST['title']) || strlen($_POST['title']) < 3) {
+            Messages::add('Donut title must be at least 3 characters long', 'danger');
+            $errors = true;
+        }
+        if (!isset($_POST['desc']) || strlen($_POST['desc']) < 3) {
+            Messages::add('Donut description must be at least 3 characters long', 'danger');
+            $errors = true;
+        }
+
+        if ($errors) {
+            flash();
+            return App::redirect('donuts/create');
+        }
+        
+        
         $data = [
             'title' => $_POST['title'],
             'coating' => $_POST['coating'],
@@ -109,7 +158,7 @@ class DonutsController
         ];
 
         (new FileDB('donuts'))->update($id, $data);
-        Messages::add('Donut updated');
+        Messages::add('Donut updated', 'success');
 
         return App::redirect('donuts');
     }

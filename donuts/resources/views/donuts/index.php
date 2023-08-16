@@ -26,8 +26,10 @@
                 </div>
                 <div class="buttons">
                     <a href="<?= URL . 'donuts/show/' . $donut['id'] ?>" class="btn btn-outline-secondary">VIEW</a>
+                    <?php if (check(['admin'])) : ?>
                     <a href="<?= URL . 'donuts/edit/' . $donut['id'] ?>" class="btn btn-outline-secondary">EDIT</a>
                     <a href="<?= URL . 'donuts/delete/' . $donut['id'] ?>" class="btn btn-outline-secondary">DELETE</a>
+                    <?php endif ?>
                 </div>
             </div>
         </div>

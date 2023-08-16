@@ -18,13 +18,18 @@ class Auth {
             return false;
         }
     
-        public static function check()
+        public static function check(array $roles, bool $header = false)
         {
-            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && in_array($_SESSION['user']['role'], $roles)) {
                 return true;
             }
-            return false;
+            if ($header) {
+                http_response_code(403);
+            } else {
+                return false;
+            }
         }
+
     
         public static function user()
         {
@@ -39,5 +44,19 @@ class Auth {
         {
             $_SESSION['logged_in'] = false;
             unset($_SESSION['user']);
+        }
+
+        public static function register($name, $email, $password, $color)
+        {
+            $user = [
+                'name' => $name,
+                'email' => $email,
+                'password' => md5($password),
+                'color' => $color,
+                'role' => 'user',
+            ];
+    
+            (new FileDB('users'))->create($user);
+
         }
 }

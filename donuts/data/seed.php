@@ -46,21 +46,24 @@ $users = [
         'name' => 'Briedis',
         'email' => 'briedis@gmail.com',
         'password' => md5('123'),
-        'color' => 'crimson'
+        'color' => 'crimson',
+        'role' => 'admin',
     ],
     [
         'id' => 2,
         'name' => 'Bebras',
         'email' => 'bebras@gmail.com',	
         'password' => md5('123'),
-        'color' => 'indigo'
+        'color' => 'indigo',
+        'role' => 'user',
     ],
     [
         'id' => 3,
         'name' => 'Barsukas',
         'email' => 'arsukas@gmail.com',
         'password' => md5('123'),
-        'color' => 'darkorange'
+        'color' => 'darkorange',
+        'role' => 'user',
     ]
 ];
 

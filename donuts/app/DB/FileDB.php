@@ -66,6 +66,7 @@ class FileDB implements DataBase {
                 return $dataLine;
             }
         }
+        return [];
     }
 
     public function showAll() : array

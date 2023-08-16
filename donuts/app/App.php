@@ -26,60 +26,62 @@ class App {
         }
 
         if ($method == 'GET' && count($uri) == 1 && $uri[0] == 'login') {
-            return (new L)->showLogin();
+            return !Auth::check(['admin', 'user'], true) ? (new L)->showLogin() : self::redirect('');
         }
 
         if ($method == 'POST' && count($uri) == 1 && $uri[0] == 'login') {
-            return (new L)->login();
+            return !Auth::check(['admin', 'user'], true) ? (new L)->login() : self::redirect('');
         }
 
         if ($method == 'POST' && count($uri) == 1 && $uri[0] == 'logout') {
-            return (new L)->logout();
+            return Auth::check(['admin', 'user'], true) ? (new L)->logout() : self::redirect('');
         }
 
-        // Check if user is logged in
-        if ($uri[0] == 'donuts' && !Auth::check()) {
-            return self::redirect('login');
+        if ($method == 'GET' && count($uri) == 1 && $uri[0] == 'register') {
+            return !Auth::check(['admin', 'user'], true) ? (new L)->showRegister() : self::redirect('');
+        }
+
+        if ($method == 'POST' && count($uri) == 1 && $uri[0] == 'register') {
+            return !Auth::check(['admin', 'user'], true) ? (new L)->register() : self::redirect('');
         }
 
 
         // Donuts routes
 
         if ($method == 'GET' && count($uri) == 1 && $uri[0] == 'donuts') {
-            return (new DC)->index();
+            return Auth::check(['admin', 'user'], true) ? (new DC)->index() : self::viewError('403');
         }
 
         if ($method == 'GET' && count($uri) == 2 && $uri[0] == 'donuts' && $uri[1] == 'create') {
-            return (new DC)->create();
+            return Auth::check(['admin'], true) ? (new DC)->create() : self::viewError('403');
         }
 
         if ($method == 'POST' && count($uri) == 2 && $uri[0] == 'donuts' && $uri[1] == 'store') {
-            return (new DC)->store();
+            return Auth::check(['admin'], true) ? (new DC)->store() : self::viewError('403');
         }
 
         if ($method == 'GET' && count($uri) == 3 && $uri[0] == 'donuts' && $uri[1] == 'delete') {
-            return (new DC)->delete($uri[2]);
+            return Auth::check(['admin'], true) ? (new DC)->delete($uri[2]) : self::viewError('403');
         }
 
         if ($method == 'POST' && count($uri) == 3 && $uri[0] == 'donuts' && $uri[1] == 'destroy') {
-            return (new DC)->destroy($uri[2]);
+            return Auth::check(['admin'], true) ? (new DC)->destroy($uri[2]) : self::viewError('403');
         }
 
         if ($method == 'GET' && count($uri) == 3 && $uri[0] == 'donuts' && $uri[1] == 'edit') {
-            return (new DC)->edit($uri[2]);
+            return Auth::check(['admin'], true) ? (new DC)->edit($uri[2]) : self::viewError('403');
         }
 
         if ($method == 'POST' && count($uri) == 3 && $uri[0] == 'donuts' && $uri[1] == 'update') {
-            return (new DC)->update($uri[2]);
+            return Auth::check(['admin'], true) ? (new DC)->update($uri[2]) : self::viewError('403');
         }
 
         if ($method == 'GET' && count($uri) == 3 && $uri[0] == 'donuts' && $uri[1] == 'show') {
-            return (new DC)->show($uri[2]);
+            return Auth::check(['admin', 'user'], true) ? (new DC)->show($uri[2]) : self::viewError('403');
         }
 
-
-        return '<h1> 404 Page not found </h1>';
-
+        http_response_code(404);
+        return self::viewError('404');
 
     }
 
@@ -104,6 +106,20 @@ class App {
 
         return ob_get_clean();
     }
+
+    public static function viewError($path)
+    {
+
+        ob_start();
+
+        require ROOT . 'resources/views/errors/' . $path . '.php';
+
+        clearFlash();
+
+        return ob_get_clean();
+    }
+
+
 
     public static function redirect($url)
     {

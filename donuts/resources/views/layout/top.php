@@ -21,12 +21,21 @@
           <li class="nav-item">
             <a class="nav-link" href="<?= URL ?>">Donuts HOME</a>
           </li>
+          <?php if (check(['admin', 'user'])) : ?>
           <li class="nav-item">
             <a class="nav-link" href="<?= URL . 'donuts' ?>">All Donuts</a>
           </li>
+          <?php endif ?>
+          <?php if (check(['admin'])) : ?>
           <li class="nav-item">
             <a class="nav-link" href="<?= URL . 'donuts/create' ?>">Create new Donut</a>
           </li>
+          <?php endif ?>
+          <?php if (!check(['admin', 'user'])) : ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= URL . 'register' ?>">Register</a>
+          </li>
+          <?php endif ?>
         </ul>
       <div class="d-flex">
         <?php if (null === $user): ?>
