@@ -14,17 +14,17 @@ $options = [
 ];
 $pdo = new PDO($dsn, $user, $pass, $options);
 
-// INSERT INTO table_name (column1, column2, column3, ...)
-// VALUES (value1, value2, value3, ...);
+// DELETE FROM table_name WHERE condition;
 
+// DELETE FROM trees WHERE id = 888 OR 1;
 
 $sql = "
-    INSERT INTO trees (title, height, type)
-    VALUES (? , ? , ?)
+    DELETE FROM trees
+    WHERE id = ?
 ";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([ $_POST['title'], $_POST['height'], $_POST['type'] ]);
 
+$stmt->execute([ $_POST['id'] ]);
 
 header('Location: http://localhost/iguanos/029/');

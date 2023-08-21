@@ -4,6 +4,7 @@ namespace Donuts\DB;
 use App\DB\DataBase;
 
 
+
 class FileDB implements DataBase {
 
     // function create(array $userData) : void;
@@ -72,6 +73,11 @@ class FileDB implements DataBase {
     public function showAll() : array
     {
         return $this->data;
+    }
+
+    public function deleteAll() : void
+    {
+        $this->data = [];
     }
 
 

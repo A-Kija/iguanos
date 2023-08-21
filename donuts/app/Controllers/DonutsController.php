@@ -2,7 +2,7 @@
 namespace Donuts\Controllers;
 
 use Donuts\App;
-use Donuts\DB\FileDB;
+use Donuts\DB\Storage;
 use Donuts\Messages;
 
 class DonutsController
@@ -21,7 +21,7 @@ class DonutsController
     
     public function index()
     {
-        $donuts = (new FileDB('donuts'))->showAll();
+        $donuts = Storage::getStorage('donuts')->showAll();
         
         return App::view('donuts/index', [
             'pageTitle' => 'Donuts index page',

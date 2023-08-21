@@ -18,19 +18,31 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 // SELECT column1, column2, ...
 // FROM table_name;
 
+// SELECT column1, column2, ...
+// FROM table_name
+// ORDER BY column1, column2, ... ASC|DESC;
+
 $types = [
     1 => 'Lapuotis',
     2 => 'Spygliuotis',
     3 => 'Palmė',
 ];
 
+// $sql = "
+//     SELECT id, title, height, type
+//     FROM trees
+//     ORDER BY title, height
+//     LIMIT 4, 4
+// ";
+
 $sql = "
     SELECT id, title, height, type
     FROM trees
+    WHERE height > 10 
+    ORDER BY title DESC, height
 ";
 
 $stmt = $pdo->query($sql);
-
 
 $trees = $stmt->fetchAll();
 
@@ -42,6 +54,13 @@ $trees = $stmt->fetchAll();
     <meta charset="UTF-8">
     <title>Tree list</title>
     <style>
+        body {
+            font-family: monospace;
+            display: flex;
+            margin: 50px;
+            gap: 20px;
+
+        }
         table {
             border-collapse: collapse;
         }
@@ -53,8 +72,7 @@ $trees = $stmt->fetchAll();
             background-color: #eee;
         }
         fieldset {
-            margin-top: 20px;
-            width: 300px;
+            width: 200px;
             padding: 10px;
             border: 1px solid #bbb;
         }
@@ -70,9 +88,11 @@ $trees = $stmt->fetchAll();
     </style>
 </head>
 <body>
-    <h1>Tree list</h1>
     <table>
         <thead>
+            <tr>
+                <th colspan="4">Tree list</th>
+            </tr>
             <tr>
                 <th>ID</th>
                 <th>Title</th>
@@ -113,6 +133,36 @@ $trees = $stmt->fetchAll();
             </div>
             <div>
             <button type="submit">Plant</button>
+            </div>
+        </form>
+    </fieldset>
+
+    <fieldset>
+        <legend>Grow Tree</legend>
+        <form action="edit.php" method="post">
+            <div>
+            <label>ID</label>
+            <input type="text" name="id">
+            </div>
+            <div>
+            <label>Height</label>
+            <input type="text" name="height">
+            </div>
+            <div>
+            <button type="submit">Grow</button>
+            </div>
+        </form>
+    </fieldset>
+
+    <fieldset>
+        <legend>Cut Tree</legend>
+        <form action="delete.php" method="post">
+            <div>
+            <label>ID</label>
+            <input type="text" name="id">
+            </div>
+            <div>
+            <button type="submit">Cut</button>
             </div>
         </form>
     </fieldset>
