@@ -4,7 +4,6 @@ namespace Donuts\DB;
 use App\DB\DataBase;
 use PDO;
 
-
 class MariaDB implements DataBase {
 
     // function create(array $userData) : void;
@@ -35,25 +34,48 @@ class MariaDB implements DataBase {
 
     public function create(array $userData) : void
     {
-        $sql = "
-            INSERT INTO {$this->table} (title, coating, extra, description, hole)
-            VALUES (? , ? , ? , ? , ?)
-        ";
+        if ($this->table == 'donuts') {
+            $sql = "
+                INSERT INTO {$this->table} (title, coating, extra, description, hole)
+                VALUES (? , ? , ? , ? , ?)
+            ";
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([ $userData['title'], $userData['coating'], $userData['extra'], $userData['desc'], $userData['hole'] ]);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([ $userData['title'], $userData['coating'], $userData['extra'], $userData['desc'], $userData['hole'] ]);
+        }
+        if ($this->table == 'users') {
+            $sql = "
+                INSERT INTO {$this->table} (name, email, password, color, role)
+                VALUES (? , ? , ? , ? , ?)
+            ";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([ $userData['name'], $userData['email'], $userData['password'], $userData['color'], $userData['role'] ]);
+        }
     }
 
     public function update(int $userId, array $userData) : void
     {
-        $sql = "
-            UPDATE {$this->table}
-            SET title = ?, coating = ?, extra = ?, description = ?, hole = ?
-            WHERE id = ?
-        ";
+        if ($this->table == 'donuts') {
+            $sql = "
+                UPDATE {$this->table}
+                SET title = ?, coating = ?, extra = ?, description = ?, hole = ?
+                WHERE id = ?
+            ";
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([ $userData['title'], $userData['coating'], $userData['extra'], $userData['desc'], $userData['hole'], $userId ]);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([ $userData['title'], $userData['coating'], $userData['extra'], $userData['desc'], $userData['hole'], $userId ]);
+        }
+        if ($this->table == 'users') {
+            $sql = "
+                UPDATE {$this->table}
+                SET name = ?, email = ?, password = ?, color = ?, role = ?
+                WHERE id = ?
+            ";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([ $userData['name'], $userData['email'], $userData['password'], $userData['color'], $userData['role'], $userId ]);
+        }
     }
 
     public function delete(int $userId) : void

@@ -24,6 +24,7 @@ class LoginController
         if (Auth::attempt($email, $password)) {
            return App::redirect('donuts');
         } else {
+            Messages::add('Wrong email or password', 'danger');
             return App::redirect('login');
         }
     }

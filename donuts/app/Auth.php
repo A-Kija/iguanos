@@ -1,13 +1,14 @@
 <?php
 namespace Donuts;
-use Donuts\DB\FileDB;
+use Donuts\DB\Storage;
+use Donuts\Messages;
 
 
 class Auth {
 
         public static function attempt($email, $password) : bool
         {
-            $users = (new FileDB('users'))->showAll();
+            $users = Storage::getStorage('users')->showAll();
             foreach ($users as $user) {
                 if ($user['email'] == $email && $user['password'] == md5($password)) {
                     $_SESSION['logged_in'] = true;
@@ -56,7 +57,7 @@ class Auth {
                 'role' => 'user',
             ];
     
-            (new FileDB('users'))->create($user);
+            Storage::getStorage('users')->create($user);
 
         }
 }

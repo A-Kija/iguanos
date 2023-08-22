@@ -7,7 +7,8 @@ use Donuts\DB\MariaDB;
 
 class Storage {
 
-        private static $type = 'MariaDB';
+        // private static $type = 'MariaDB';
+        private static $type = 'FileDB';
     
         public static function getStorage($from) {
 

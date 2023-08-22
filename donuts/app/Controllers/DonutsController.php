@@ -62,10 +62,11 @@ class DonutsController
             'coating' => $_POST['coating'],
             'extra' => $_POST['extra'] ?? 'off',
             'desc' => $_POST['desc'],
+            'description' => $_POST['desc'], // desc can be saved as description (old version)
             'hole' => $_POST['hole']
         ];
         
-        (new FileDB('donuts'))->create($data);
+        Storage::getStorage('donuts')->create($data);
 
         Messages::add('Donut created', 'success');
 
@@ -79,7 +80,7 @@ class DonutsController
             return App::viewError('404');
         }
         
-        $donut = (new FileDB('donuts'))->show($id);
+        $donut = Storage::getStorage('donuts')->show($id);
 
         if (!$donut) {
             http_response_code(404);
@@ -101,7 +102,7 @@ class DonutsController
         //     return App::viewError('404');
         // }
 
-        (new FileDB('donuts'))->delete($id);
+        Storage::getStorage('donuts')->delete($id);
 
         Messages::add('Donut deleted', 'success');
 
@@ -116,11 +117,16 @@ class DonutsController
             return App::viewError('404');
         }
         
-        $donut = (new FileDB('donuts'))->show($id);
+        $donut = Storage::getStorage('donuts')->show($id);
 
         if (!$donut) {
             http_response_code(404);
             return App::viewError('404');
+        }
+
+        // desc can be saved as description (old version)
+        if (!isset($donut['desc'])) {
+            $donut['desc'] = $donut['description'];
         }
 
         return App::view('donuts/edit', [
@@ -153,11 +159,12 @@ class DonutsController
             'title' => $_POST['title'],
             'coating' => $_POST['coating'],
             'extra' => $_POST['extra'] ?? 'off',
-            'desc' => $_POST['desc'],
+            'desc' => $_POST['desc'], // desc can be saved as description (old version)
+            'description' => $_POST['desc'],
             'hole' => $_POST['hole']
         ];
 
-        (new FileDB('donuts'))->update($id, $data);
+        Storage::getStorage('donuts')->update($id, $data);
         Messages::add('Donut updated', 'success');
 
         return App::redirect('donuts');
@@ -165,7 +172,12 @@ class DonutsController
 
     public function show($id)
     {
-        $donut = (new FileDB('donuts'))->show($id);
+        $donut = Storage::getStorage('donuts')->show($id);
+
+        // desc can be saved as description (old version)
+        if (!isset($donut['desc'])) {
+            $donut['desc'] = $donut['description'];
+        }
 
         return App::view('donuts/show', [
             'pageTitle' => 'Donut details',
