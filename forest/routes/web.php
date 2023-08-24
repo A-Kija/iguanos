@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\SumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,7 @@ Route::get('/hello/22', function () {
 Route::get('/hello/controller/{color}', [HelloController::class, 'hello']);
 
 Route::get('/hello-blade', [HelloController::class, 'helloBlade']);
+Route::get('/bye-blade', [HelloController::class, 'byeByeBlade']);
+
+Route::get('/sum', [SumController::class, 'showForm'])->name('sum-form');
+Route::post('/sum', [SumController::class, 'submitForm'])->name('sum-submit');

@@ -15,24 +15,25 @@ class HelloController extends Controller
         return '<h1 style="font-size:'.$request->size.'px;color:'.$color.';">Hello my name is Forest and my favorite color is ' . $color . '</h1>';
     }
 
-    // public function helloBlade()
-    // {
-    //     $name = 'Forest';
-    //     $age = 22;
-    //     $colors = ['red', 'green', 'blue'];
-    //     $people = [
-    //         ['name' => 'Forest', 'age' => 22],
-    //         ['name' => 'Bob', 'age' => 33],
-    //         ['name' => 'Alice', 'age' => 44],
-    //     ];
-    //     return view('hello', compact('name', 'age', 'colors', 'people'));
-    // }
-
     public function helloBlade(Request $request)
     {
+        
+        $people = [
+            ['name' => 'Forest', 'age' => 22],
+            ['name' => 'Bob', 'age' => 33],
+            ['name' => 'Alice', 'age' => 44],
+        ];
+        
         return view('go.hello', [
-            'color' => $request->color
+            'color' => $request->color,
+            'font' => $request->font,
+            'people' => $people,
         ]);
+    }
+
+    public function byeByeBlade()
+    {
+        return view('go.bye');
     }
 
 }
