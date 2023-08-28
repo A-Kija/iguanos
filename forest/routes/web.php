@@ -35,3 +35,7 @@ Route::get('/bye-blade', [HelloController::class, 'byeByeBlade']);
 
 Route::get('/sum', [SumController::class, 'showForm'])->name('sum-form');
 Route::post('/sum', [SumController::class, 'submitForm'])->name('sum-submit');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
