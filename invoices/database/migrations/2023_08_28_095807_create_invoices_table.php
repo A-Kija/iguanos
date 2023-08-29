@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('client_vat')->nullable();
             $table->string('client_country');
 
-            $table->string('invoice_amount');
+            $table->integer('invoice_amount');
 
             $table->timestamps();
             

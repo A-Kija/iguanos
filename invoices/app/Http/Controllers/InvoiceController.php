@@ -12,7 +12,13 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        $invoices = Invoice::all(); // get all invoices from the database
+        // $invoices are collection of Invoice model objects
+
+        return view('invoices.index', [
+            'invoices' => $invoices,
+            'countries' => Invoice::$countryList,
+        ]);
     }
 
     /**
@@ -20,9 +26,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoices.create' ,[
-            'countries' => Invoice::$countryList,
-        ]);
+        return view('invoices.create', [
+                'countries' => Invoice::$countryList,
+            ]
+        );
     }
 
     /**
@@ -30,7 +37,21 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $invoice = new Invoice; // new empty invoice object
+
+        // fill the object with data from the request
+        $invoice->invoice_number = $request->number;
+        $invoice->invoice_date = $request->date;
+        $invoice->client_name = $request->name;
+        $invoice->client_address = $request->address;
+        $invoice->client_address2 = $request->address2;
+        $invoice->client_vat = $request->vat;
+        $invoice->client_country = $request->country;
+        $invoice->invoice_amount = $request->amount;
+
+        $invoice->save(); // save the object to the database
+
+        return redirect()->route('invoices-index'); // redirect to the index page
     }
 
     /**
@@ -46,7 +67,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        return view('invoices.edit', [
+            'invoice' => $invoice,
+            'countries' => Invoice::$countryList,
+        ]);
     }
 
     /**
@@ -54,7 +78,29 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        // fill the object with data from the request
+        $invoice->invoice_number = $request->number;
+        $invoice->invoice_date = $request->date;
+        $invoice->client_name = $request->name;
+        $invoice->client_address = $request->address;
+        $invoice->client_address2 = $request->address2;
+        $invoice->client_vat = $request->vat;
+        $invoice->client_country = $request->country;
+        $invoice->invoice_amount = $request->amount;
+
+        $invoice->save(); // save the object to the database
+
+        return redirect()->route('invoices-index'); // redirect to the index page
+    }
+
+    /**
+     * Show delete confirmation page.
+     */
+    public function delete(Invoice $invoice)
+    {
+        return view('invoices.delete', [
+            'invoice' => $invoice,
+        ]);
     }
 
     /**
@@ -62,6 +108,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete(); // delete the object from the database
+
+        return redirect()->route('invoices-index'); // redirect to the index page
     }
 }

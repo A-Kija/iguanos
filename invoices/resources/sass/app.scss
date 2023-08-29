@@ -6,3 +6,22 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Custom
+.buttons-bin {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    a {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}
+
+.list-group {
+    .list-group-item:nth-child(odd) {
+        background-color: transparentize(black, 0.9);
+    }
+}
