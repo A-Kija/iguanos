@@ -51,7 +51,10 @@ class InvoiceController extends Controller
 
         $invoice->save(); // save the object to the database
 
-        return redirect()->route('invoices-index'); // redirect to the index page
+        return redirect()
+            ->route('invoices-index')
+            ->with('msg', ['type' => 'success', 'content' => 'Invoice was created successfully.']);
+            // redirect to the index page with a success message
     }
 
     /**
@@ -90,7 +93,10 @@ class InvoiceController extends Controller
 
         $invoice->save(); // save the object to the database
 
-        return redirect()->route('invoices-index'); // redirect to the index page
+        return redirect()
+            ->route('invoices-index')
+            ->with('msg', ['type' => 'success', 'content' => 'Invoice was updated successfully.']);
+            // redirect to the index page with a success message
     }
 
     /**
@@ -110,6 +116,9 @@ class InvoiceController extends Controller
     {
         $invoice->delete(); // delete the object from the database
 
-        return redirect()->route('invoices-index'); // redirect to the index page
+        return redirect()
+        ->route('invoices-index')
+        ->with('msg', ['type' => 'info', 'content' => 'Invoice was deleted successfully.']);
+        // redirect to the index page with a info message
     }
 }
