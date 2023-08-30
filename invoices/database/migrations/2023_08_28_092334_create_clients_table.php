@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_number')->unique();
-            $table->string('invoice_date');
-            
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients');
 
-            $table->integer('invoice_amount');
+            $table->string('client_name');
+            $table->string('client_address');
+            $table->string('client_address2')->nullable();
+            $table->string('client_vat')->nullable();
+            $table->string('client_country');
 
             $table->timestamps();
-            
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('clients');
     }
 };

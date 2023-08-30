@@ -31,42 +31,14 @@
                         </div>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Client</label>
-                                        <input type="text" class="form-control" placeholder="client name" name="name"
-                                            value={{$invoice->client_name}}>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" class="form-control" placeholder="client address"
-                                            name="address" value={{$invoice->client_address}}>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Address II</label>
-                                        <input type="text" class="form-control" placeholder="client address"
-                                            name="address2" value={{$invoice->client_address2}}>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">VAT</label>
-                                        <input type="text" class="form-control" placeholder="client VAT" name="vat"
-                                            value={{$invoice->client_vat}}>
-                                    </div>
-                                </div>
                                 <div class="col-md-5">
                                     <div class="mb-3">
-                                        <label class="form-label">Country</label>
-                                        <select class="form-select" name="country">
-                                            <option selected value="">Select country</option>
-                                            @foreach ($countries as $code => $country)
-                                            <option value="{{ $code }}" {{$code==$invoice->client_country ? 'selected' :
-                                                ''}}>{{ $country }}</option>
+                                        <label class="form-label">Client</label>
+                                        <select class="form-select" name="client_id">
+                                            <option selected value="">Select client</option>
+                                            @foreach ($clients as $client)
+                                            <option value="{{ $client->id }}" {{$client->id == $invoice->client_id ? 'selected' :
+                                                ''}}>{{ $client->client_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
