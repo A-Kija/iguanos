@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Client;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -113,5 +114,14 @@ class InvoiceController extends Controller
         ->route('invoices-index')
         ->with('msg', ['type' => 'info', 'content' => 'Invoice was deleted successfully.']);
         // redirect to the index page with a info message
+    }
+
+    public function showLine()
+    {
+        $html = view('invoices.line')
+        ->with(['products' => Product::all()])
+        ->render();
+
+        return response()->json(['html' => $html]);
     }
 }
