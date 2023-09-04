@@ -34,37 +34,48 @@
                             </div>
                         </li>
 
-                        @foreach ($invoices as $invoice)
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        {{$invoice->invoice_number}}
-                                    </div>
-                                    <div class="col-md-1">
-                                        {{$invoice->invoice_date}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{$invoice->client->client_name}}
-                                    </div>
-                                    <div class="col-md-2">
-                                        {{$countries[$invoice->client->client_country]}}
-                                    </div>
-                                    <div class="col-md-1">
-                                        <b>{{$invoice->invoice_amount}} eur</b>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="buttons-bin">
-                                            <a href="{{route('invoices-show', $invoice->id)}}" class="btn btn-primary">Show</a>
-                                            <a href="{{route('invoices-edit', $invoice->id)}}" class="btn btn-primary">Edit</a>
-                                            <a href="{{route('invoices-delete', $invoice->id)}}" class="btn btn-danger">Delete</a>
-                                        </div>
+                        @forelse ($invoices as $invoice)
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    {{$invoice->invoice_number}}
+                                </div>
+                                <div class="col-md-1">
+                                    {{$invoice->invoice_date}}
+                                </div>
+                                <div class="col-md-3">
+                                    {{$invoice->client->client_name}}
+                                </div>
+                                <div class="col-md-2">
+                                    {{$countries[$invoice->client->client_country]}}
+                                </div>
+                                <div class="col-md-1">
+                                    <b>{{$invoice->getPivot->reduce(function($carry, $item) {
+                                        return $carry + $item->quantity * $item->product->price;
+                                    })}} eur</b>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="buttons-bin">
+                                        <a href="{{route('invoices-show', $invoice->id)}}"
+                                            class="btn btn-primary">Show</a>
+                                        <a href="{{route('invoices-edit', $invoice->id)}}"
+                                            class="btn btn-primary">Edit</a>
+                                        <a href="{{route('invoices-delete', $invoice->id)}}"
+                                            class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>
-                            </li>
-                        @endforeach
-
-                      </ul>
-                    
+                            </div>
+                        </li>
+                        @empty
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>No invoices</h4>
+                                </div>
+                            </div>
+                        </li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>

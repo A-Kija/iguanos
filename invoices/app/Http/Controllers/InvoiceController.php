@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\Client;
 use App\Models\Product;
+use App\Models\ProductInvoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -28,6 +29,12 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        // $prices = [];
+        // Product::all()->pluck('price', 'id')->each(function ($item, $key) use (&$prices) {
+        //     $prices[] = ['id' => $key, 'price' => $item];
+        // })->toArray();
+
+        
         return view('invoices.create', [
                 'clients' => Client::all(),
             ]
@@ -39,15 +46,22 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $invoice = new Invoice; // new empty invoice object
+        
+        $invoice = Invoice::create([
+            'invoice_number' => $request->number,
+            'invoice_date' => $request->date,
+            'client_id' => $request->client_id,
+        ]);
 
-        // fill the object with data from the request
-        $invoice->invoice_number = $request->number;
-        $invoice->invoice_date = $request->date;
-        $invoice->client_id = $request->client_id;
-        $invoice->invoice_amount = $request->amount;
 
-        $invoice->save(); // save the object to the database
+        foreach ($request->product_id as $key => $value) {
+            $quantity = $request->quantity[$key];
+            ProductInvoice::create([
+                'product_id' => $value,
+                'invoice_id' => $invoice->id,
+                'quantity' => $quantity,
+            ]);
+        }
 
         return redirect()
             ->route('invoices-index')

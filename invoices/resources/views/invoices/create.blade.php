@@ -2,6 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -42,23 +43,55 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="container">
-                                        <div class="--products row">
-
-
+                                    <div class="--products container">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="mb-3">
+                                                    <h5>Product</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <h5>Price</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <h5>Quantity</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <h5>Total</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <button type="button" class="--add-product btn btn-outline-secondary" data-url="{{route('invoices-show-line')}}">Add product</button>
+                                    <button type="button" class="--add-product btn btn-outline-secondary mt-3"
+                                        data-url="{{route('invoices-show-line')}}">Add product</button>
                                 </div>
 
-
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Amount</label>
-                                        <input type="text" class="form-control" placeholder="amount" name="amount">
+                                <div class="col-md-12">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Amount</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <input type="text" class="--amount form-control" readonly value="0.00">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

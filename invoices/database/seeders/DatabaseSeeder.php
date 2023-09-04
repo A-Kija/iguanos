@@ -50,13 +50,12 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        foreach (range(1, 20) as $index) {
-            DB::table('invoices')->insert([
-                'invoice_number' => 'FV-' . (1000 + $index),
-                'invoice_date' => $faker->date(),
-                'client_id' => $faker->numberBetween(1, 40),
-                'invoice_amount' => $faker->numberBetween(100, 9999)
-            ]);
-        }
+        // foreach (range(1, 20) as $index) {
+        //     DB::table('invoices')->insert([
+        //         'invoice_number' => 'FV-' . (1000 + $index),
+        //         'invoice_date' => $faker->date(),
+        //         'client_id' => $faker->numberBetween(1, 40),
+        //     ]);
+        // }
     }
 }

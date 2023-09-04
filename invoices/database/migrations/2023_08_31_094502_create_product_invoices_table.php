@@ -15,7 +15,7 @@ return new class extends Migration
             $table->index(['product_id', 'invoice_id']);
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('invoice_id')->references('id')->on('invoices');
-            $table->integer('quantity');
+            $table->decimal('quantity', 8, 2);
         });
     }
 
