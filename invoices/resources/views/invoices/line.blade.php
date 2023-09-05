@@ -1,5 +1,11 @@
 <div class="--line row">
-    <div class="col-md-5">
+    <div class="col-md-1">
+        <div class="mb-3">
+            <h5 class="--in-row"></h5>
+            <input type="hidden" class="--in-row" name="in_row[]" value="">
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="mb-3">
             <select class="form-select" name="product_id[]">
                 <option selected value="">Select Product</option>

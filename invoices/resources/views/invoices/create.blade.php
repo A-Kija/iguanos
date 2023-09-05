@@ -45,7 +45,12 @@
                                 <div class="col-md-12">
                                     <div class="--products container">
                                         <div class="row">
-                                            <div class="col-md-5">
+                                            <div class="col-md-1">
+                                                <div class="mb-3">
+                                                    <h5>#</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <h5>Product</h5>
                                                 </div>

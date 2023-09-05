@@ -47,6 +47,11 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         
+        // dump($request->all());
+
+        // die;
+
+
         $invoice = Invoice::create([
             'invoice_number' => $request->number,
             'invoice_date' => $request->date,
@@ -54,12 +59,16 @@ class InvoiceController extends Controller
         ]);
 
 
+
+
         foreach ($request->product_id as $key => $value) {
             $quantity = $request->quantity[$key];
+            $inRow = $request->in_row[$key];
             ProductInvoice::create([
                 'product_id' => $value,
                 'invoice_id' => $invoice->id,
                 'quantity' => $quantity,
+                'in_row' => $inRow,
             ]);
         }
 
@@ -82,9 +91,27 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        
+        $products = collect(); // create a new collection
+
+        $invoice->getPivot->each(function ($item, $key) use (&$products) {
+            $product = (object)[]; // create a new object
+            $product->id = $item->product_id;
+            $product->quantity = $item->quantity;
+            $product->price = $item->product->price;
+            $product->name = $item->product->name;
+            $product->product_id = $item->product_id;
+            $product->total = number_format($item->quantity * $item->product->price, 2);
+            $product->in_row = $item->in_row;
+          
+            $products->add($product); // add the object to the collection
+        });
+        
         return view('invoices.edit', [
             'invoice' => $invoice,
             'clients' => Client::all(),
+            'invoiceLines' => $products,
+            'products' => Product::all(),
         ]);
     }
 
@@ -93,13 +120,61 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        // fill the object with data from the request
-        $invoice->invoice_number = $request->number;
-        $invoice->invoice_date = $request->date;
-        $invoice->client_id = $request->client_id;
-        $invoice->invoice_amount = $request->amount;
+        $invoice->update([
+            'invoice_number' => $request->number,
+            'invoice_date' => $request->date,
+            'client_id' => $request->client_id,
+        ]);
 
-        $invoice->save(); // save the object to the database
+
+        // Find what to delete
+        $toDelete = $invoice->getPivot->filter(function ($item, $key) use ($request) {
+            return !in_array($item->product_id, $request->product_id);
+        });
+
+        // Delete the items
+        $toDelete->each(function ($item, $key) {
+            $item->delete();
+        });
+
+        // Find what to add
+        $toAdd = collect($request->product_id)->filter(function ($item, $key) use ($invoice) {
+            return !$invoice->getPivot->contains('product_id', $item);
+        });
+
+        // Add the items
+        $toAdd->each(function ($item, $key) use ($invoice, $request) {
+            $quantity = $request->quantity[$key];
+            ProductInvoice::create([
+                'product_id' => $item,
+                'invoice_id' => $invoice->id,
+                'quantity' => $quantity,
+            ]);
+        });
+
+        // Edit all the rest
+        collect($request->product_id)->each(function ($item, $key) use ($invoice, $request) {
+            $quantity = $request->quantity[$key];
+            $invoice->getPivot->where('product_id', $item)->first()?->update([ // if item exists, update it
+                'quantity' => $quantity,
+                'product_id' => $item,
+                'in_row' => $request->in_row[$key],
+            ]);
+        });
+
+
+        // $invoice->getPivot->each(function ($item, $key) {
+        //     $item->delete();
+        // });
+
+        // foreach ($request->product_id as $key => $value) {
+        //     $quantity = $request->quantity[$key];
+        //     ProductInvoice::create([
+        //         'product_id' => $value,
+        //         'invoice_id' => $invoice->id,
+        //         'quantity' => $quantity,
+        //     ]);
+        // }
 
         return redirect()
             ->route('invoices-index')

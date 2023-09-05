@@ -13,9 +13,11 @@ class ProductInvoice extends Model
         'product_id',
         'invoice_id',
         'quantity',
+        'in_row'
     ];
 
     public $timestamps = false;
+
 
     public function product()
     {
