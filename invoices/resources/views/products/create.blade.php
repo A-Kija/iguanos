@@ -16,18 +16,18 @@
                                 <div class="col-md-10">
                                     <div class="mb-3">
                                         <label class="form-label">Name</label>
-                                        <input type="text" class="form-control" placeholder="product name" name="name">
+                                        <input type="text" class="form-control" placeholder="product name" name="name" value="{{old('name')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="mb-3">
                                         <label class="form-label">Price</label>
-                                        <input type="text" class="form-control" placeholder="price" name="price">
+                                        <input type="text" class="form-control" placeholder="price" name="price" value="{{old('price')}}">
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control" rows="3" name="description"></textarea>
+                                    <textarea class="form-control" rows="20" name="description">{{old('description')}}</textarea>
                                   </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">

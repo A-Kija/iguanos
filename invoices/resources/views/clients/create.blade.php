@@ -16,27 +16,27 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Client</label>
-                                        <input type="text" class="form-control" placeholder="client name" name="name">
+                                        <input type="text" class="form-control" placeholder="client name" name="name" value="{{old('name')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Address</label>
                                         <input type="text" class="form-control" placeholder="client address"
-                                            name="address">
+                                            name="address" value="{{old('address')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Address II</label>
                                         <input type="text" class="form-control" placeholder="client address"
-                                            name="address2">
+                                            name="address2" value="{{old('address2')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">VAT</label>
-                                        <input type="text" class="form-control" placeholder="client VAT" name="vat">
+                                        <input type="text" class="form-control" placeholder="client VAT" name="vat"  value="{{old('vat')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -45,7 +45,7 @@
                                         <select class="form-select" name="country">
                                             <option selected value="">Select country</option>
                                             @foreach ($countries as $code => $country)
-                                            <option value="{{ $code }}">{{ $country }}</option>
+                                            <option value="{{ $code }}" {{old('country') == $code ? 'selected' : ''}}>{{ $country }}</option>
                                             @endforeach
                                         </select>
                                     </div>

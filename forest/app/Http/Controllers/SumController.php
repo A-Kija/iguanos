@@ -20,6 +20,7 @@ class SumController extends Controller
     {
         
         
+        
         $validator = Validator::make($request->all(), [
             'x' => 'required|numeric',
             'y' => 'required|numeric',

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Models\ProductInvoice;
 use Illuminate\Http\Request;
+use App\Http\Validators\InvoiceValidator;
 
 class InvoiceController extends Controller
 {
@@ -37,6 +38,7 @@ class InvoiceController extends Controller
         
         return view('invoices.create', [
                 'clients' => Client::all(),
+                'products' => Product::all(),
             ]
         );
     }
@@ -50,6 +52,15 @@ class InvoiceController extends Controller
         // dump($request->all());
 
         // die;
+
+        $validator = (new InvoiceValidator())->validate($request);
+ 
+        if ($validator->fails()) {
+            return redirect()
+            ->route('invoices-create')
+            ->withErrors($validator)
+            ->withInput();
+        }
 
 
         $invoice = Invoice::create([
@@ -110,7 +121,7 @@ class InvoiceController extends Controller
         return view('invoices.edit', [
             'invoice' => $invoice,
             'clients' => Client::all(),
-            'invoiceLines' => $products,
+            'invoiceLines' => $products->sortBy('in_row'),
             'products' => Product::all(),
         ]);
     }
@@ -149,6 +160,7 @@ class InvoiceController extends Controller
                 'product_id' => $item,
                 'invoice_id' => $invoice->id,
                 'quantity' => $quantity,
+                'in_row' => $request->in_row[$key],
             ]);
         });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Http\Validators\ClientValidator;
 
 class ClientController extends Controller
 {
@@ -36,6 +37,17 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $validator = (new ClientValidator())->validate($request);
+ 
+        if ($validator->fails()) {
+            return redirect()
+            ->route('clients-create')
+            ->withErrors($validator)
+            ->withInput();
+        }
+        
+        
         $client = new Client; // new empty invoice object
 
         // fill the object with data from the request
@@ -81,6 +93,16 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
+        
+        $validator = (new ClientValidator())->validate($request);
+ 
+        if ($validator->fails()) {
+            return redirect()
+            ->route('clients-edit', ['client' => $client])
+            ->withErrors($validator)
+            ->withInput();
+        }
+        
         // fill the object with data from the request
         $client->client_name = $request->name;
         $client->client_address = $request->address;
