@@ -31,7 +31,7 @@
     </div>
     <div class="col-md-2">
         <div class="mb-3">
-            <input type="text" class="--total form-control" readonly>
+            <input type="text" class="--total form-control" value="0.00" readonly>
         </div>
     </div>
     <div class="col-md-1">
@@ -76,7 +76,7 @@
     <div class="col-md-2">
         <div class="mb-3">
             <input type="text" class="--total form-control" readonly
-                value="{{number_format($products->first(fn($p) => $p->id == $value)->price * old('quantity')[$key], 2)}}">
+                value="{{number_format($products->first(fn($p) => $p->id == $value)->price * ((float) old('quantity')[$key]), 2)}}">
         </div>
     </div>
     <div class="col-md-1">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->index(['product_id', 'invoice_id']);
             $table->foreignId('product_id')->references('id')->on('products');
-            $table->foreignId('invoice_id')->references('id')->on('invoices');
+            $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->decimal('quantity', 8, 2);
             $table->unsignedInteger('in_row')->default(0);
         });

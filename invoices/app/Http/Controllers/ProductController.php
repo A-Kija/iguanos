@@ -8,31 +8,22 @@ use App\Http\Validators\ProductValidator;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $products = Product::all();
-        return view('products.index', ['products' => $products]);
+        return view('products.index', [
+            'products' => $products
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        
         $validator = (new ProductValidator())->validate($request);
- 
         if ($validator->fails()) {
             return redirect()
             ->route('products-create')
@@ -43,15 +34,18 @@ class ProductController extends Controller
         Product::create($request->all());
         return redirect()
         ->route('products-index')
-        ->with('msg', ['type' => 'success', 'content' => 'Product was created successfully.']);
+        ->with('msg', [
+            'type' => 'success',
+            'content' => 'Product was created successfully.'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Product $product)
     {
-        //
+        return view('products.show', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -89,7 +83,10 @@ class ProductController extends Controller
 
     public function delete(Product $product)
     {
-        return view('products.delete', ['product' => $product]);
+        return view('products.delete', [
+            'product' => $product,
+            'invoicesCount' => $product->invoices()->count(),
+        ]);
     }
 
     /**

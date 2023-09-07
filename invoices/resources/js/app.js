@@ -30,9 +30,9 @@ const addProductEvent = _ => {
             const quantity = parseFloat(e.target.closest('.--line').querySelector('.--quantity').value);
             if (isNaN(quantity)) {
                 e.target.closest('.--line').querySelector('.--total').value = '0.00';
-                return;
+            } else {
+                calculateLineTotal(e.target.closest('.--line'));
             }
-            e.target.closest('.--line').querySelector('.--total').value = (price * quantity).toFixed(2);
             calculateTotal();
         });
     });
@@ -41,13 +41,12 @@ const addProductEvent = _ => {
     document.querySelectorAll('.--products .--quantity:not(.--event-added)').forEach(select => {
         select.classList.add('--event-added');
         select.addEventListener('input', e => {
-            const price = e.target.closest('.--line').querySelector('.--price').value;
             const quantity = parseFloat(e.target.value);
             if (isNaN(quantity)) {
                 e.target.closest('.--line').querySelector('.--total').value = '0.00';
-                return;
+            } else {
+                calculateLineTotal(e.target.closest('.--line'));
             }
-            e.target.closest('.--line').querySelector('.--total').value = (price * quantity).toFixed(2);
             calculateTotal();
         });
     });
@@ -66,9 +65,16 @@ const addProductEvent = _ => {
 const calculateTotal = _ => {
     let total = 0;
     document.querySelectorAll('.--products .--total').forEach(input => {
+        console.log(input.value);
         total += parseFloat(input.value);
     });
     document.querySelector('.--amount').value = total.toFixed(2);
+}
+
+const calculateLineTotal = line => {
+    const price = line.querySelector('.--price').value;
+    const quantity = parseFloat(line.querySelector('.--quantity').value);
+    line.querySelector('.--total').value = (price * quantity).toFixed(2);
 }
 
 const addInRow = _ => {

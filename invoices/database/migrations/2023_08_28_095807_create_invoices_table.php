@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('invoice_number')->unique();
             $table->string('invoice_date');
             
-            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients');
+
+            $table->json('archive')->nullable();
 
             $table->timestamps();
             

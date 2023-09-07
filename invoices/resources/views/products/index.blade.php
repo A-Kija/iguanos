@@ -19,7 +19,10 @@
                                 <div class="col-md-2">
                                     <h4>Price</h4>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-2">
+                                    <h5>Use in invoices</h5>
+                                </div>
+                                <div class="col-md-4">
                                 </div>
                             </div>
                         </li>
@@ -32,7 +35,10 @@
                                     <div class="col-md-2">
                                         <b>{{$product->price}} eur</b>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
+                                        {{$product->invoices()->count()}}
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="buttons-bin">
                                             <a href="{{route('products-show', $product->id)}}" class="btn btn-primary">Show</a>
                                             <a href="{{route('products-edit', $product->id)}}" class="btn btn-primary">Edit</a>

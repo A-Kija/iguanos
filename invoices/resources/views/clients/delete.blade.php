@@ -16,8 +16,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-4">
                                     <div class="m-3">
-                                        <h4>Client</h4>
-                                        <p>{{$client->client_name}}</p>
+                                        <h4>{{$client->client_name}}</h4>
                                     </div>
                                     <div class="m-3">
                                         <button type="submit" class="btn btn-outline-danger m-1">Delete</button>
@@ -36,12 +35,11 @@
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="m-3">
-                                    <h4>Client</h4>
-                                    <p>{{$client->client_name}}</p>
+                                    <h4><p>{{$client->client_name}}</h4>
                                 </div>
-                                <div class="m-3">
-                                    <h4>Client has invoices</h4>
-                                    <p>Client cannot be deleted</p>
+                                <div class="m-3 text-danger">
+                                    <div>Client has invoices</div>
+                                        <div>Client cannot be deleted</div>
                                 </div>
                                 <div class="m-3">
                                     <a href="{{route('clients-index')}}" class="btn btn-outline-secondary m-1">Cancel</a>

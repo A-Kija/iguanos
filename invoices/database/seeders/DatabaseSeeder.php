@@ -46,16 +46,26 @@ class DatabaseSeeder extends Seeder
                 . $faker->cityPrefix . ' '
                 . (rand(0, 1) ? ($faker->citySuffix . ' ') : ''),
                 'price' => $faker->numberBetween(1, 10000) / 100,
-                'description' => $faker->sentence(1000),
+                'description' => $faker->sentence(200),
             ]);
         }
 
-        // foreach (range(1, 20) as $index) {
-        //     DB::table('invoices')->insert([
-        //         'invoice_number' => 'FV-' . (1000 + $index),
-        //         'invoice_date' => $faker->date(),
-        //         'client_id' => $faker->numberBetween(1, 40),
-        //     ]);
-        // }
+        foreach (range(1, 20) as $index) {
+            DB::table('invoices')->insert([
+                'invoice_number' => 'FV-' . (1000 + $index),
+                'invoice_date' => $faker->date(),
+                'client_id' => $faker->numberBetween(1, 40),
+            ]);
+
+            foreach (range(1, rand(1, 5)) as $index2) {
+                DB::table('product_invoices')->insert([
+                    'product_id' => $faker->numberBetween(1, 20),
+                    'invoice_id' => $index,
+                    'quantity' => $faker->numberBetween(1, 10),
+                    'in_row' => $index2,
+                ]);
+            }
+
+        }
     }
 }

@@ -12,10 +12,10 @@ class InvoiceValidator
         $validator = Validator::make(
             $request->all(), 
             [
-                'number' => 'required|unique:invoices,invoice_number|min:3|max:20',
+                'number' => 'null|unique:invoices,invoice_number|min:3|max:20',
                 'date' => 'required|date_format:Y-m-d',
                 'client_id' => 'required|exists:clients,id',
-                'product_id' => 'required|exists:products,id',
+                'product_id.*' => 'required|exists:products,id',
                 'quantity.*' => 'required|numeric|min:1|max:1000',
 
             ], 

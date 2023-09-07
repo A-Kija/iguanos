@@ -17,14 +17,15 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Number</label>
-                                        <input type="text" class="form-control" placeholder="invoice number"
-                                            name="number" value="{{$invoice->invoice_number}}">
+                                        <input type="text" class="form-control" readonly placeholder="invoice number"
+                                            value="{{$invoice->invoice_number}}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Date</label>
-                                        <input type="text" class="form-control" placeholder="invoice date" name="date"  value="{{$invoice->invoice_date}}">
+                                        <input type="text" class="form-control" placeholder="invoice date" name="date"
+                                            value="{{old('date', $invoice->invoice_date)}}">
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +38,8 @@
                                         <select class="form-select" name="client_id">
                                             <option selected value="">Select client</option>
                                             @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}" {{$client->id == $invoice->client_id ? 'selected' : ''}}>{{ $client->client_name }}</option>
+                                            <option value="{{ $client->id }}" {{$client->id == old('client_id', $invoice->client_id) ?
+                                                'selected' : ''}}>{{ $client->client_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -68,47 +70,63 @@
                                             <div class="col-md-1">
                                             </div>
                                         </div>
+
+                                        @if(old('product_id'))
+                                        @include('invoices.old')
+                                        @else
+
                                         @foreach ($invoiceLines as $line)
                                         <div class="--line row">
                                             <div class="col-md-1">
                                                 <div class="mb-3">
                                                     <h5 class="--in-row">{{$line->in_row}}</h5>
-                                                    <input type="hidden" class="--in-row" name="in_row[]" value="{{$line->in_row}}">
+                                                    <input type="hidden" class="--in-row" name="in_row[]"
+                                                        value="{{$line->in_row}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <select class="form-select --product" name="product_id[]">
                                                         @foreach ($products as $product)
-                                                        <option value="{{ $product->id }}" {{$product->id == $line->product_id ? 'selected' : ''}}  data-price="{{$product->price}}">{{ $product->name }}</option>
+                                                        <option value="{{ $product->id }}" {{$product->id ==
+                                                            $line->product_id ? 'selected' : ''}}
+                                                            data-price="{{$product->price}}">{{ $product->name }}
+                                                        </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <input type="text" class="--price form-control" readonly value="{{$line->price}}">
+                                                    <input type="text" class="--price form-control" readonly
+                                                        value="{{$line->price}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <input type="text" class="--quantity form-control" name="quantity[]" value="{{$line->quantity}}">
+                                                    <input type="text" class="--quantity form-control" name="quantity[]"
+                                                        value="{{$line->quantity}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <input type="text" class="--total form-control" readonly value="{{$line->total}}">
+                                                    <input type="text" class="--total form-control" readonly
+                                                        value="{{$line->total}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <div class="mb-3">
-                                                    <button type="button" class="--remove-product btn btn-outline-danger">-</button>
+                                                    <button type="button"
+                                                        class="--remove-product btn btn-outline-danger">-</button>
                                                 </div>
                                             </div>
                                         </div>
                                         @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
+
                                 <div class="col-md-12">
                                     <button type="button" class="--add-product btn btn-outline-secondary mt-3"
                                         data-url="{{route('invoices-show-line')}}">Add product</button>
@@ -126,7 +144,8 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <input type="text" class="--amount form-control" readonly value="0.00">
+                                                    <input type="text" class="--amount form-control" readonly
+                                                        value="0.00">
                                                 </div>
                                             </div>
                                         </div>
@@ -135,6 +154,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <button type="submit" class="btn btn-outline-primary">Save Invoice</button>
+                                        <button type="submit" class="btn btn-outline-primary">Archive Invoice</button>
                                     </div>
                                 </div>
                             </div>
