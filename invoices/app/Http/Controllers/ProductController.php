@@ -8,11 +8,16 @@ use App\Http\Validators\ProductValidator;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+
+        $products = Product::select('*')->orderBy('price', 'desc')->get();
+
+dump($request->sort);
+
         return view('products.index', [
-            'products' => $products
+            'products' => $products,
+            'sorts' => Product::SORTS,
         ]);
     }
 

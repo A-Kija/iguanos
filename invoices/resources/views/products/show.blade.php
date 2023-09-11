@@ -23,8 +23,8 @@
                                         <ul class="small-list">
                                             @forelse ($product->invoices as $invoice)
                                             <li>
-                                                <a
-                                                    href="{{route('invoices-edit', $invoice->invoice)}}">{{$invoice->invoice->invoice_number}} {{$invoice->invoice->client->client_name}}</a>
+                                                <a href="{{route('invoices-edit', $invoice->invoice)}}">{{$invoice->invoice->invoice_number}}
+                                                    {{$invoice->invoice->client->client_name}}</a>
                                             </li>
                                             @empty
                                             <li>No invoices</li>
@@ -35,10 +35,12 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3 mt-4">
-                                    <a href="{{route('products-edit', $product)}}"
-                                        class="btn btn-outline-primary">Edit Product</a>
-                                    <a href="{{route('products-index')}}"
-                                        class="btn btn-outline-secondary">Products list</a>
+                                    @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
+                                    <a href="{{route('products-edit', $product)}}" class="btn btn-outline-primary">Edit
+                                        Product</a>
+                                    @endif
+                                    <a href="{{route('products-index')}}" class="btn btn-outline-secondary">Products
+                                        list</a>
                                 </div>
                             </div>
                         </div>

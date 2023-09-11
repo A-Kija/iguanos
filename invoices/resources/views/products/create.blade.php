@@ -13,7 +13,7 @@
                     <form action={{route('products-store')}} method="post">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-8">
                                     <div class="mb-3">
                                         <label class="form-label">Name</label>
                                         <input type="text" class="form-control" placeholder="product name" name="name" value="{{old('name')}}">
@@ -23,6 +23,12 @@
                                     <div class="mb-3">
                                         <label class="form-label">Price</label>
                                         <input type="text" class="form-control" placeholder="price" name="price" value="{{old('price')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Discount</label>
+                                        <input type="text" class="form-control" placeholder="discount" name="discount" value="{{old('discounte', 0)}}">
                                     </div>
                                 </div>
                                 <div class="mb-3">

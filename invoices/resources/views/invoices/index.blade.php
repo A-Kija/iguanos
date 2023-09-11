@@ -52,16 +52,18 @@
                                 <div class="col-md-1">
                                     <b>{{$invoice->getPivot->reduce(function($carry, $item) {
                                         return $carry + $item->quantity * $item->product->price;
-                                    })}} eur</b>
+                                        })}} eur</b>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="buttons-bin">
                                         <a href="{{route('invoices-show', $invoice->id)}}"
                                             class="btn btn-primary">Show</a>
+                                        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
                                         <a href="{{route('invoices-edit', $invoice->id)}}"
                                             class="btn btn-primary">Edit</a>
                                         <a href="{{route('invoices-delete', $invoice->id)}}"
                                             class="btn btn-danger">Delete</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -41,8 +41,10 @@
                                     <div class="col-md-4">
                                         <div class="buttons-bin">
                                             <a href="{{route('clients-show', $client->id)}}" class="btn btn-primary">Show</a>
+                                            @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
                                             <a href="{{route('clients-edit', $client->id)}}" class="btn btn-primary">Edit</a>
                                             <a href="{{route('clients-delete', $client->id)}}" class="btn btn-danger">Delete</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

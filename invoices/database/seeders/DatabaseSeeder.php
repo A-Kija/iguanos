@@ -19,12 +19,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Bebras',
             'email' => 'bebras@gmail.com',
             'password' => Hash::make('123'),
+            'role' => 'user',
         ]);
 
         DB::table('users')->insert([
             'name' => 'Briedis',
             'email' => 'briedis@gmail.com',
             'password' => Hash::make('123'),
+            'role' => 'admin',
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Barsukas',
+            'email' => 'barsukas@gmail.com',
+            'password' => Hash::make('123'),
+            'role' => 'manager',
         ]);
 
         $faker = Faker::create();
@@ -40,12 +49,14 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach (range(1, 20) as $index) {
+            $price = $faker->numberBetween(1, 10000) / 100;
             DB::table('products')->insert([
                 'name' =>  
                 (rand(0, 1) ? ($faker->streetSuffix . ' ') : '')
                 . $faker->cityPrefix . ' '
                 . (rand(0, 1) ? ($faker->citySuffix . ' ') : ''),
-                'price' => $faker->numberBetween(1, 10000) / 100,
+                'price' => $price,
+                'discount' => rand(0, 2) ? 0 : $price * $faker->numberBetween(50, 100) / 100,
                 'description' => $faker->sentence(200),
             ]);
         }

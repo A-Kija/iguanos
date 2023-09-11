@@ -13,10 +13,16 @@
                     <form action={{route('products-update', $product)}} method="post">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-8">
                                     <div class="mb-3">
                                         <label class="form-label">Name</label>
                                         <input type="text" class="form-control" placeholder="product name" name="name" value="{{old('name', $product->name)}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <label class="form-label">Discount</label>
+                                        <input type="text" class="form-control" placeholder="discount" name="discount" value="{{old('discounte', $product->discount)}}">
                                     </div>
                                 </div>
                                 <div class="col-md-2">

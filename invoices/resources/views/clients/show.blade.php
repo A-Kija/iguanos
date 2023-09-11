@@ -35,7 +35,9 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
+                                    @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
                                     <a href="{{route('clients-edit', $client)}}" type="submit" class="btn btn-outline-primary">Edit client</a>
+                                    @endif
                                     <a href="{{route('clients-index')}}" type="submit" class="btn btn-outline-secondary">Clients list</a>
                                 </div>
                             </div>
