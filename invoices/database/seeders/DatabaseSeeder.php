@@ -48,13 +48,16 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        foreach (range(1, 20) as $index) {
+        $products = 122;
+
+        foreach (range(1, $products) as $index) {
             $price = $faker->numberBetween(1, 10000) / 100;
             DB::table('products')->insert([
                 'name' =>  
-                (rand(0, 1) ? ($faker->streetSuffix . ' ') : '')
+                (rand(0, 1) ? ($faker->colorName . ' ') : '')
+                .(rand(0, 2) ? ($faker->streetSuffix . ' ') : '')
                 . $faker->cityPrefix . ' '
-                . (rand(0, 1) ? ($faker->citySuffix . ' ') : ''),
+                . (rand(0, 2) ? ($faker->citySuffix . ' ') : ''),
                 'price' => $price,
                 'discount' => rand(0, 2) ? 0 : $price * $faker->numberBetween(50, 100) / 100,
                 'description' => $faker->sentence(200),
@@ -70,7 +73,7 @@ class DatabaseSeeder extends Seeder
 
             foreach (range(1, rand(1, 5)) as $index2) {
                 DB::table('product_invoices')->insert([
-                    'product_id' => $faker->numberBetween(1, 20),
+                    'product_id' => $faker->numberBetween(1, $products),
                     'invoice_id' => $index,
                     'quantity' => $faker->numberBetween(1, 10),
                     'in_row' => $index2,

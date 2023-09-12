@@ -14,19 +14,59 @@
                 <form action="{{route('products-index')}}" method="GET">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="m-2">
                                     <label class="form-label">Sort By:</label>
                                     <select class="form-select" name="sort">
                                         @foreach ($sorts as $key => $sort)
-                                        <option value="{{$key}}">{{$sort}}</option>
+                                        <option value="{{$key}}" {{$selectedSort==$key ? 'selected' : '' }}>{{$sort}}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="m-2">
+                                    <label class="form-label">Discount:</label>
+                                    <select class="form-select" name="discount">
+                                        @foreach ($discountFilters as $key => $filter)
+                                        <option value="{{$key}}" {{$selectedDiscount==$key ? 'selected' : '' }}>
+                                            {{$filter}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="m-2">
+                                    <label class="form-label">Min Max price: <span id="min">{{$minProductPrice}}</span> - <span id="max">{{$maxProductPrice}}</span></label>
+                                    <div class="slider-box">
+                                        <input type="range" class="slider" name="min" value="{{$minProductPrice}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                        <input type="range" class="slider" name="max" value="{{$maxProductPrice}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="m-2">
+                                    <label class="form-label">Results per page:</label>
+                                    <div class="check-in-line">
+                                        @foreach ($perPageOptions as $key => $option)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" {{$perPage==$key ? 'checked'
+                                                : '' }} name="per_page" id="{{$key}}" value={{$key}}>
+                                            <label class="form-check-label" for="{{$key}}">
+                                                {{$option}}
+                                            </label>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-2">
-                                <div class="m-2 button-down">
-                                    <button type="submit" class="btn btn-outline-primary">Sort</button>
+                                <div class="m-2">
+                                    <button type="submit" class="btn btn-outline-primary">Use</button>
+                                    <a href="{{route('products-index')}}" class="btn btn-outline-secondary">Clear</a>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +125,11 @@
                         @endforeach
                     </ul>
                 </div>
+                @if(method_exists($products, 'links'))
+                <div class="m-3">
+                    {{ $products->links()}}
+                </div>
+                @endif
             </div>
         </div>
     </div>

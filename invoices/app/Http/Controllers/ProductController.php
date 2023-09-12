@@ -11,13 +11,49 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        $products = Product::select('*')->orderBy('price', 'desc')->get();
+        $products = Product::select('*');
 
-dump($request->sort);
+        $products = match($request->sort) {
+            'price' => $products->orderBy('price', 'asc'),
+            'price_desc' => $products->orderBy('price', 'desc'),
+            'name' => $products->orderBy('name', 'asc'),
+            'name_desc' => $products->orderBy('name', 'desc'),
+            default => $products,
+        };
+
+        $products = match($request->discount) {
+            'discount' => $products->where('discount', '>', 0),
+            'no_discount' => $products->where('discount', '=', 0),
+            default => $products,
+        };
+
+        $products = $products->where('price', '>', 10);
+        
+        $products = $products->where('price', '<', 60);
+
+        $products = match($request->per_page) {
+            'all' => $products->get(),
+            '30' => $products->paginate(30)->withQueryString(),
+            '50' => $products->paginate(50)->withQueryString(),
+            default => $products->paginate(15)->withQueryString(),
+        };
+
+
+        $maxProductPrice = Product::max('price');
+        $minProductPrice = Product::min('price');
+
+
 
         return view('products.index', [
             'products' => $products,
             'sorts' => Product::SORTS,
+            'discountFilters' => Product::DISCOUNT_FILTERS,
+            'perPageOptions' => Product::RESULTS_PER_PAGE,
+            'selectedSort' => $request->sort ?? '',
+            'perPage' => $request->per_page ?? '15',
+            'selectedDiscount' => $request->discount ?? '',
+            'maxProductPrice' => $maxProductPrice,
+            'minProductPrice' => $minProductPrice,
         ]);
     }
 
