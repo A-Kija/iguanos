@@ -27,9 +27,18 @@ class ProductController extends Controller
             default => $products,
         };
 
-        $products = $products->where('price', '>', 10);
+        $maxProductPrice = Product::max('price');
+        $minProductPrice = Product::min('price');
+
+        $filterMaxPrice = $request->max ?? $maxProductPrice;
+        $filterMinPrice = $request->min ?? $minProductPrice;
+
+        $products = $products->where('price', '<=', $filterMaxPrice);
+        $products = $products->where('price', '>=', $filterMinPrice);
+
+        // $products = $products->where('price', '>', 10);
         
-        $products = $products->where('price', '<', 60);
+        // $products = $products->where('price', '<', 60);
 
         $products = match($request->per_page) {
             'all' => $products->get(),
@@ -37,10 +46,9 @@ class ProductController extends Controller
             '50' => $products->paginate(50)->withQueryString(),
             default => $products->paginate(15)->withQueryString(),
         };
+        
 
 
-        $maxProductPrice = Product::max('price');
-        $minProductPrice = Product::min('price');
 
 
 
@@ -52,6 +60,8 @@ class ProductController extends Controller
             'selectedSort' => $request->sort ?? '',
             'perPage' => $request->per_page ?? '15',
             'selectedDiscount' => $request->discount ?? '',
+            'selectedMax' => $filterMaxPrice,
+            'selectedMin' => $filterMinPrice,
             'maxProductPrice' => $maxProductPrice,
             'minProductPrice' => $minProductPrice,
         ]);

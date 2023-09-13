@@ -97,9 +97,34 @@ addEventListener('load', _ => {
 
         min.addEventListener('input', e => {
             minVal.innerHTML = e.target.value;
+            if (parseInt(max.value) < parseInt(min.value)) {
+                max.value = min.value;
+                maxVal.innerHTML = min.value;
+            }
         });
         max.addEventListener('input', e => {
             maxVal.innerHTML = e.target.value;
+            if (parseInt(max.value) < parseInt(min.value)) {
+                min.value = max.value;
+                minVal.innerHTML = max.value;
+            }
         });
     }
 });
+
+// SEARCH CLIENT FOR INVOICE
+// addEventListener('load', _ => {
+//     if (document.querySelector('.--search-client')) {
+//         document.querySelector('.--search-client').addEventListener('input', e => {
+//             const search = e.target.value;
+//             if (search.length > 2) {
+//                 axios.get(e.target.dataset.url + '?search=' + search)
+//                     .then(res => {
+//                         document.querySelector('.--clients').innerHTML = res.data.html;
+//                         addClientEvent();
+//                     })
+//                     .catch(err => console.log(err));
+//             }
+//         });
+//     }
+// });

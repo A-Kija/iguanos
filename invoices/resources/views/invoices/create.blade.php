@@ -24,22 +24,26 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Date</label>
-                                        <input type="text" class="form-control" placeholder="invoice date" name="date" value="{{old('date')}}">
+                                        <input type="text" class="form-control" placeholder="invoice date" name="date"
+                                            value="{{old('date')}}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Client</label>
-                                        <select class="form-select" name="client_id">
-                                            <option selected value="">Select client</option>
-                                            @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}" {{old('client_id') == $client->id ? 'selected' : ''}}>{{ $client->client_name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="--selected-client-name form-control" placeholder="not selected"
+                                            name="client_name" readonly>
+                                        <input type="hidden" class="--selected-client-id" name="client_id">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <input type="text" class="--search-client form-control" placeholder="search client">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -95,7 +99,8 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="mb-3">
-                                                    <input type="text" class="--amount form-control" readonly value="0.00">
+                                                    <input type="text" class="--amount form-control" readonly
+                                                        value="0.00">
                                                 </div>
                                             </div>
                                         </div>

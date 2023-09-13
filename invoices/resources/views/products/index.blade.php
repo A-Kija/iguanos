@@ -10,7 +10,6 @@
                     <h1>Products list</h1>
                 </div>
 
-
                 <form action="{{route('products-index')}}" method="GET">
                     <div class="container">
                         <div class="row">
@@ -38,10 +37,10 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="m-2">
-                                    <label class="form-label">Min Max price: <span id="min">{{$minProductPrice}}</span> - <span id="max">{{$maxProductPrice}}</span></label>
+                                    <label class="form-label">Min Max price: <span id="min">{{$selectedMin}}</span> - <span id="max">{{$selectedMax}}</span></label>
                                     <div class="slider-box">
-                                        <input type="range" class="slider" name="min" value="{{$minProductPrice}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
-                                        <input type="range" class="slider" name="max" value="{{$maxProductPrice}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                        <input type="range" class="slider" name="min" value="{{$selectedMin}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                        <input type="range" class="slider" name="max" value="{{$selectedMax}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
                                     </div>
                                 </div>
                             </div>
@@ -61,8 +60,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col-md-2">
                                 <div class="m-2">
                                     <button type="submit" class="btn btn-outline-primary">Use</button>

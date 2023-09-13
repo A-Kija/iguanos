@@ -11,14 +11,58 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $clients = Client::all(); // get all clients from the database
-        // $clients are collection of Client model objects
+        $clients = Client::select('*');
+        // select distinct countries
+        $countries = Client::select('client_country')->distinct()->pluck('client_country')->toArray();
+        // add country title to the country code
+        $countries = array_map(function ($countryCode) {
+            return [$countryCode, Client::$countryList[$countryCode]];
+        }, $countries);
+        // add "All countries" option
+        array_unshift($countries, ['all', 'All countries']);
+        
+
+
+        $clients = match($request->sort) {
+            'asc' => $clients->orderBy('client_name', 'asc'),
+            'desc' => $clients->orderBy('client_name', 'desc'),
+            default => $clients,
+        };
+
+
+        // filter by country
+        $clients = match($request->country ?? 'all') {
+            'all' => $clients,
+            default => $clients->where('client_country', $request->country),
+        };
+
+        // search by name
+        $clients = match($request->s) {
+            null => $clients,
+            default => $clients->where('client_name', 'like', "%{$request->s}%"),
+        };
+
+        $clients = match($request->per_page) {
+            'all' => $clients->get(),
+            '30' => $clients->paginate(30)->withQueryString(),
+            '50' => $clients->paginate(50)->withQueryString(),
+            default => $clients->paginate(15)->withQueryString(),
+        };
+
+
         return view('clients.index', [
             'clients' => $clients,
             'countries' => Client::$countryList,
+            'perPage' => $request->per_page ?? '15',
+            'perPageOptions' => Client::RESULTS_PER_PAGE,
+            'sortOptions' => Client::SORTS,
+            'selectedSort' => $request->sort ?? '',
+            'selectedCountry' => $request->country ?? '',
+            'countryOptions' => $countries,
+            's' => $request->s ?? '',
         ]);
     }
 

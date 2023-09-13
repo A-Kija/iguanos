@@ -14,14 +14,57 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::all(); // get all invoices from the database
-        // $invoices are collection of Invoice model objects
+        $invoices = Invoice::select('*');
+
+        // date sort
+        $invoices = match($request->sort) {
+            'old' => $invoices->orderBy('invoice_date', 'asc'),
+            'new' => $invoices->orderBy('invoice_date', 'desc'),
+            default => $invoices,
+        };
+
+        // distict client ids
+        $clients = Invoice::select('client_id')->distinct()->pluck('client_id')->toArray();
+
+        // add client name to the client id
+        $clients = array_map(function ($clientId) {
+            return [$clientId, Client::find($clientId)->client_name];
+        }, $clients);
+
+        //sort by client name
+        $clients = collect($clients)->sortBy(1)->toArray();
+
+        // add "All clients" option
+        array_unshift($clients, ['all', 'All clients']);
+
+        // filter by client
+        $invoices = match($request->client ?? 'all') {
+            'all' => $invoices,
+            default => $invoices->where('client_id', $request->client),
+        };
+
+
+
+
+        $invoices = match($request->per_page) {
+            'all' => $invoices->get(),
+            '30' => $invoices->paginate(30)->withQueryString(),
+            '50' => $invoices->paginate(50)->withQueryString(),
+            default => $invoices->paginate(15)->withQueryString(),
+        };
+
 
         return view('invoices.index', [
             'invoices' => $invoices,
             'countries' => Invoice::$countryList,
+            'perPage' => $request->per_page ?? '15',
+            'perPageOptions' => Invoice::RESULTS_PER_PAGE,
+            'sortOptions' => Invoice::SORTS,
+            'selectedSort' => $request->sort ?? '',
+            'clientOptions' => $clients,
+            'selectedClient' => $request->client ?? 'all',
         ]);
     }
 

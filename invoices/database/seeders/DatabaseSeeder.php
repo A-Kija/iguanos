@@ -37,8 +37,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $faker = Faker::create();
+        $products = 122;
+        $clients = 444;
 
-        foreach (range(1, 40) as $index) {
+        foreach (range(1, $clients) as $index) {
             DB::table('clients')->insert([
                 'client_name' => $faker->company(),
                 'client_address' => $faker->address(),
@@ -48,7 +50,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $products = 122;
+
 
         foreach (range(1, $products) as $index) {
             $price = $faker->numberBetween(1, 10000) / 100;
@@ -68,7 +70,7 @@ class DatabaseSeeder extends Seeder
             DB::table('invoices')->insert([
                 'invoice_number' => 'FV-' . (1000 + $index),
                 'invoice_date' => $faker->date(),
-                'client_id' => $faker->numberBetween(1, 40),
+                'client_id' => $faker->numberBetween(1, $clients),
             ]);
 
             foreach (range(1, rand(1, 5)) as $index2) {

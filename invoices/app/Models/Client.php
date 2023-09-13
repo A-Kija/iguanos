@@ -275,6 +275,23 @@ class Client extends Model
         'ZW' => 'Zimbabwe',
         'AX' => 'Åland Islands',
         'CW' => 'Curaçao',
+        'SX' => 'Sint Maarten',
+        'BQ' => 'Caribbean Netherlands',
+        'SS' => 'South Sudan',
+        
+    ];
+
+    const RESULTS_PER_PAGE = [
+        15 => 15,
+        30 => 30,
+        50 => 50,
+        'all' => 'All',
+    ];
+
+    const SORTS = [
+        '' => 'None',
+        'asc' => 'A-Z',
+        'desc' => 'Z-A',
     ];
 
     public function invoices()
