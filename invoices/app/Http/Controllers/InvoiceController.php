@@ -45,6 +45,13 @@ class InvoiceController extends Controller
             default => $invoices->where('client_id', $request->client),
         };
 
+        // filter by archive
+        $invoices = match($request->archive ?? 'all') {
+            'all' => $invoices,
+            'archived' => $invoices->where('archive', '!=', null),
+            'not_archived' => $invoices->where('archive', null),
+        };
+
 
 
 
@@ -65,6 +72,8 @@ class InvoiceController extends Controller
             'selectedSort' => $request->sort ?? '',
             'clientOptions' => $clients,
             'selectedClient' => $request->client ?? 'all',
+            'archiveOptions' => Invoice::ARCHIVES,
+            'selectedArchive' => $request->archive ?? 'all',
         ]);
     }
 
@@ -137,7 +146,11 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         
-
+        if ($invoice->archive) {
+            return redirect()
+            ->route('invoices-index')
+            ->with('msg', ['type' => 'danger', 'content' => 'Invoice is archived.']);
+        }
         
         $products = collect(); // create a new collection
 
@@ -175,6 +188,46 @@ class InvoiceController extends Controller
             ->route('invoices-edit', ['invoice' => $invoice])
             ->withErrors($validator)
             ->withInput();
+        }
+
+        if (isset($request->archive)) {
+            // add products to archive
+
+            $products = [];
+            $total = 0;
+            foreach ($request->in_row as $key => $row) {
+                $product = [];
+                $product['row'] = $row;
+                $product['quantity'] = $request->quantity[$key];
+                $product['price'] = Product::find($request->product_id[$key])->price;
+                $product['name'] = Product::find($request->product_id[$key])->name;
+                $product['total'] = number_format($product['quantity'] * $product['price'], 2);
+                $products[] = $product;
+                $total += $product['total'];
+            }
+     
+
+            $invoice->update([
+                'archive' => [
+                    'invoice_date' => $request->date,
+                    'products' => $products,
+                    'total' => $total,
+                    'number' => $request->number,
+                    'client_name' => Client::find($request->client_id)->client_name,
+                    'client_address' => Client::find($request->client_id)->address,
+                    'client_address2' => Client::find($request->client_id)->address2,
+                    'client_country' => Invoice::$countryList[Client::find($request->client_id)->client_country],
+                ],
+            ]);
+
+            // delete pivot
+            $invoice->getPivot->each(function ($item, $key) {
+                $item->delete();
+            });
+
+            return redirect()
+            ->route('invoices-index')
+            ->with('msg', ['type' => 'success', 'content' => 'Invoice was archived successfully.']);
         }
         
         $invoice->update([

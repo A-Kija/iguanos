@@ -281,7 +281,11 @@ class Invoice extends Model
     ];
 
     protected $fillable = [
-        'invoice_number', 'invoice_date', 'client_id'
+        'invoice_number', 'invoice_date', 'client_id', 'archive'
+    ];
+
+    protected $casts = [
+        'archive' => 'array',
     ];
 
     const RESULTS_PER_PAGE = [
@@ -295,6 +299,12 @@ class Invoice extends Model
         '' => 'None',
         'old' => 'Oldest first',
         'new' => 'Newest first',
+    ];
+
+    const ARCHIVES = [
+        'all' => 'All',
+        'archived' => 'Archived',
+        'not_archived' => 'Not archived',
     ];
 
     public function client()

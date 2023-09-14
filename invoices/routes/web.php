@@ -22,7 +22,7 @@ use App\Http\Controllers\HomeController as H;
 // });
 
 Route::get('/', [H::class, 'index'])->name('home');
-// Route::get('/home', [H::class, 'index'])->name('home');
+Route::get('/home', [H::class, 'index'])->name('home');
 
 
 Route::prefix('invoices')->name('invoices-')->group(function () {
@@ -65,6 +65,10 @@ Route::prefix('products')->name('products-')->group(function () {
     Route::put('/{product}', [P::class, 'update'])->name('update')->middleware('role:admin|manager'); // update existing product
     Route::delete('/{product}', [P::class, 'destroy'])->name('destroy')->middleware('role:admin|manager'); // delete existing product
 });
+
+
+// Client search with axios
+Route::get('/clients/search', [C::class, 'search'])->name('clients-search')->middleware('role:admin|manager|user');
 
 
 

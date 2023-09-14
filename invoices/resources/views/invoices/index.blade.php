@@ -18,7 +18,8 @@
                                     <label class="form-label">Sort By date:</label>
                                     <select class="form-select" name="sort">
                                         @foreach ($sortOptions as $key => $option)
-                                        <option value="{{$key}}" {{$selectedSort==$key ? 'selected' : '' }}>{{$option}}</option>
+                                        <option value="{{$key}}" {{$selectedSort==$key ? 'selected' : '' }}>{{$option}}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -28,7 +29,19 @@
                                     <label class="form-label">Clients:</label>
                                     <select class="form-select" name="client">
                                         @foreach ($clientOptions as $client)
-                                        <option value="{{$client[0]}}" {{$selectedClient==$client[0] ? 'selected' : '' }}>{{$client[1]}}</option>
+                                        <option value="{{$client[0]}}" {{$selectedClient==$client[0] ? 'selected' : ''
+                                            }}>{{$client[1]}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="m-2">
+                                    <label class="form-label">Archive:</label>
+                                    <select class="form-select" name="archive">
+                                        @foreach ($archiveOptions as $key => $option)
+                                        <option value="{{$key}}" {{$selectedArchive==$key ? 'selected' : '' }}>
+                                            {{$option}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -100,17 +113,27 @@
                                     {{$countries[$invoice->client->client_country]}}
                                 </div>
                                 <div class="col-md-1">
+                                    @if(!$invoice->archive)
                                     <b>{{$invoice->getPivot->reduce(function($carry, $item) {
                                         return $carry + $item->quantity * $item->product->price;
-                                        })}} eur</b>
+                                        })}} eur
+                                    </b>
+                                    @else
+                                    <b>{{$invoice->archive['total']}} eur</b>
+                                    @endif
                                 </div>
                                 <div class="col-md-4">
                                     <div class="buttons-bin">
+                                        @if($invoice->archive)
                                         <a href="{{route('invoices-show', $invoice->id)}}"
                                             class="btn btn-primary">Show</a>
+                                        @else
                                         @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
                                         <a href="{{route('invoices-edit', $invoice->id)}}"
                                             class="btn btn-primary">Edit</a>
+                                        @endif
+                                        @endif
+                                        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'manager')
                                         <a href="{{route('invoices-delete', $invoice->id)}}"
                                             class="btn btn-danger">Delete</a>
                                         @endif

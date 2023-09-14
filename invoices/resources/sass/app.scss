@@ -115,3 +115,29 @@ h5 {
         gap: 20px;
         margin-bottom: 20px;
   }
+
+  .client-search-result {
+    position: absolute;
+    background-color: white;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    .client-search-result-item {
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+            background-color: #ccc;
+        }
+        &.no {
+            font-size: 0.8em;
+            color: #ccc;
+            cursor: default;
+            &:hover {
+                background-color: white;
+            }
+        }
+    }
+    
+
+  }

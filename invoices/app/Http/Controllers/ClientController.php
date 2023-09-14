@@ -186,4 +186,12 @@ class ClientController extends Controller
             ->with('msg', ['type' => 'success', 'content' => 'Client was deleted successfully.']);
             // redirect to the index page with a success message
     }
+
+
+    public function search(Request $request)
+    {
+        $clients = Client::where('client_name', 'like', "%{$request->q}%")->orderBy('client_name', 'asc')->get();
+        $html = view('clients.search')->with(['clients' => $clients])->render();
+        return response()->json(['html' => $html]);
+    }
 }

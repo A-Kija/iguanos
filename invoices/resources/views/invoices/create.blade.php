@@ -43,7 +43,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">&nbsp;</label>
-                                        <input type="text" class="--search-client form-control" placeholder="search client">
+                                        <input type="text" data-url="{{route('clients-search')}}" class="--search-client form-control" placeholder="search client">
+                                        <div class="--clients-list"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

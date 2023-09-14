@@ -113,18 +113,34 @@ addEventListener('load', _ => {
 });
 
 // SEARCH CLIENT FOR INVOICE
-// addEventListener('load', _ => {
-//     if (document.querySelector('.--search-client')) {
-//         document.querySelector('.--search-client').addEventListener('input', e => {
-//             const search = e.target.value;
-//             if (search.length > 2) {
-//                 axios.get(e.target.dataset.url + '?search=' + search)
-//                     .then(res => {
-//                         document.querySelector('.--clients').innerHTML = res.data.html;
-//                         addClientEvent();
-//                     })
-//                     .catch(err => console.log(err));
-//             }
-//         });
-//     }
-// });
+addEventListener('load', _ => {
+    if (document.querySelector('.--search-client')) {
+        document.querySelector('.--search-client').addEventListener('input', e => {
+            const search = e.target.value;
+            if (search.length > 2) {
+                axios.get(e.target.dataset.url + '?q=' + search)
+                    .then(res => {
+                        document.querySelector('.--clients-list').innerHTML = res.data.html;
+                        addClientEvent();
+                    })
+                    .catch(err => console.log(err));
+            }
+        });
+        // loose focus
+        document.querySelector('.--search-client').addEventListener('blur', e => {
+            e.target.value = '';
+            setTimeout(_ => {
+                document.querySelector('.--clients-list').innerHTML = '';
+            }, 200);
+        });
+    }
+});
+
+const addClientEvent = _ => {
+    document.querySelectorAll('.--clients-list li').forEach(li => {
+        li.addEventListener('click', e => {
+            document.querySelector('.--selected-client-name').value = e.target.dataset.name;
+            document.querySelector('input[name=client_id]').value = e.target.dataset.id;
+        });
+    });
+}

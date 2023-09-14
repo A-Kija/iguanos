@@ -32,16 +32,19 @@
                         </div>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Client</label>
-                                        <select class="form-select" name="client_id">
-                                            <option selected value="">Select client</option>
-                                            @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}" {{$client->id == old('client_id', $invoice->client_id) ?
-                                                'selected' : ''}}>{{ $client->client_name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="--selected-client-name form-control" placeholder="not selected"
+                                            name="client_name" readonly value="{{old('client_name', $invoice->client->client_name)}}">
+                                        <input type="hidden" class="--selected-client-id" name="client_id" value="{{old('client_id', $invoice->client->id)}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <input type="text" data-url="{{route('clients-search')}}" class="--search-client form-control" placeholder="search client">
+                                        <div class="--clients-list"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -154,7 +157,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <button type="submit" class="btn btn-outline-primary">Save Invoice</button>
-                                        <button type="submit" class="btn btn-outline-primary">Archive Invoice</button>
+                                        <button type="submit" name="archive" value="1" class="btn btn-outline-primary">Archive Invoice</button>
                                     </div>
                                 </div>
                             </div>
