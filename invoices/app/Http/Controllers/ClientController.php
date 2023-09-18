@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Validators\ClientValidator;
+use App\Services\CountriesService as CS;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, CS $cs)
     {
 
         $clients = Client::select('*');
@@ -19,7 +20,7 @@ class ClientController extends Controller
         $countries = Client::select('client_country')->distinct()->pluck('client_country')->toArray();
         // add country title to the country code
         $countries = array_map(function ($countryCode) {
-            return [$countryCode, Client::$countryList[$countryCode]];
+            return [$countryCode, $cs->getCountries()[$countryCode]];
         }, $countries);
         // add "All countries" option
         array_unshift($countries, ['all', 'All countries']);
@@ -69,10 +70,10 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(CS $cs)
     {
         return view('clients.create', [
-            'countries' => Client::$countryList,
+            'countries' => $cs->getCountries()
         ]);
     }
 

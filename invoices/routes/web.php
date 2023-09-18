@@ -38,6 +38,8 @@ Route::prefix('invoices')->name('invoices-')->group(function () {
     Route::delete('/{invoice}', [I::class, 'destroy'])->name('destroy')->middleware('role:admin|manager'); // delete existing invoice
 
     Route::get('/show-line', [I::class, 'showLine'])->name('show-line')->middleware('role:admin|manager'); // show one empty invoice line
+    // download pdf
+    Route::get('/download/{invoice}', [I::class, 'download'])->name('download')->middleware('role:admin|manager|user'); // download invoice pdf
 });
 
 Route::prefix('clients')->name('clients-')->group(function () {

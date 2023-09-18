@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductInvoice;
 use Illuminate\Http\Request;
 use App\Http\Validators\InvoiceValidator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
@@ -137,7 +138,25 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        $number = $invoice->invoice_number;
+        $data = (object) $invoice->archive;
+        return view('invoices.show', [
+            'number' => $number,
+            'data' => $data,
+            'id' => $invoice->id,
+        ]);
+    }
+
+    public function download(Invoice $invoice)
+    {
+        $number = $invoice->invoice_number;
+        $data = (object) $invoice->archive;
+        $pdf = pdf::loadView('invoices.pdf', [
+            'number' => $number,
+            'data' => $data,
+            'id' => $invoice->id,
+        ]);
+        return $pdf->download('invoice-'.$number.'.pdf');
     }
 
     /**
@@ -212,10 +231,9 @@ class InvoiceController extends Controller
                     'invoice_date' => $request->date,
                     'products' => $products,
                     'total' => $total,
-                    'number' => $request->number,
                     'client_name' => Client::find($request->client_id)->client_name,
-                    'client_address' => Client::find($request->client_id)->address,
-                    'client_address2' => Client::find($request->client_id)->address2,
+                    'client_address' => Client::find($request->client_id)->client_address,
+                    'client_address2' => Client::find($request->client_id)->client_address2,
                     'client_country' => Invoice::$countryList[Client::find($request->client_id)->client_country],
                 ],
             ]);
