@@ -66,6 +66,8 @@ Route::prefix('products')->name('products-')->group(function () {
     Route::post('/', [P::class, 'store'])->name('store')->middleware('role:admin|manager'); // store new product
     Route::put('/{product}', [P::class, 'update'])->name('update')->middleware('role:admin|manager'); // update existing product
     Route::delete('/{product}', [P::class, 'destroy'])->name('destroy')->middleware('role:admin|manager'); // delete existing product
+
+    Route::get('/show-line', [P::class, 'showLine'])->name('show-line')->middleware('role:admin|manager'); // show one empty image line
 });
 
 

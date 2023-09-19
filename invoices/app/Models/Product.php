@@ -10,7 +10,10 @@ class Product extends Model
     use HasFactory;
 
     public $timestamps = false; // disable timestamps
-    protected $fillable = ['name', 'price', 'description', 'discount']; // allow mass assignment
+    protected $fillable = ['name', 'price', 'description', 'discount', 'images']; // allow mass assignment
+    protected $casts = [
+        'images' => 'array',
+    ];
 
     const SORTS = [
         'name' => 'Name',

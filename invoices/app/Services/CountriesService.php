@@ -5,6 +5,12 @@ namespace App\Services;
 
 class CountriesService
 {
+    public function getCountryName($code)
+    {
+        return $this->getCountries()[$code] ?? 'Unknown';
+    }
+    
+    
     public function getCountries()
     {
         return [

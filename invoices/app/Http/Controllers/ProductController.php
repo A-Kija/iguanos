@@ -72,8 +72,18 @@ class ProductController extends Controller
         return view('products.create');
     }
 
+    public function showLine()
+    {
+        $html = view('products.line')->render();
+        return response()->json(['html' => $html]);
+    }
+
     public function store(Request $request)
     {
+        
+        dd($request->file('image'));
+        
+        
         $validator = (new ProductValidator())->validate($request);
         if ($validator->fails()) {
             return redirect()
@@ -81,6 +91,17 @@ class ProductController extends Controller
             ->withErrors($validator)
             ->withInput();
         }
+
+
+
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $fileName = time() . '_' . $file->getClientOriginalName();
+        //     $file->move(public_path('images'), $fileName);
+        //     $request->merge(['images' => $fileName]);
+        // }
+
+
         
         Product::create($request->all());
         return redirect()

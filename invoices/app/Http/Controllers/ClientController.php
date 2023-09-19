@@ -19,8 +19,8 @@ class ClientController extends Controller
         // select distinct countries
         $countries = Client::select('client_country')->distinct()->pluck('client_country')->toArray();
         // add country title to the country code
-        $countries = array_map(function ($countryCode) {
-            return [$countryCode, $cs->getCountries()[$countryCode]];
+        $countries = array_map(function ($countryCode) use ($cs) {
+            return [$countryCode, $cs->getCountryName($countryCode)];
         }, $countries);
         // add "All countries" option
         array_unshift($countries, ['all', 'All countries']);
@@ -56,7 +56,7 @@ class ClientController extends Controller
 
         return view('clients.index', [
             'clients' => $clients,
-            'countries' => Client::$countryList,
+            'countries' => $cs->getCountries(),
             'perPage' => $request->per_page ?? '15',
             'perPageOptions' => Client::RESULTS_PER_PAGE,
             'sortOptions' => Client::SORTS,

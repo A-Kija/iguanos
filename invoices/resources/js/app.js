@@ -144,3 +144,48 @@ const addClientEvent = _ => {
         });
     });
 }
+
+// ADD IMAGE INPUT LINE
+addEventListener('load', _ => {
+    if (document.querySelector('.--images-lines')) {
+        document.querySelector('.--add-image').addEventListener('click', e => {
+            axios.get(e.target.dataset.url)
+                .then(res => {
+                    document.querySelector('.--images-lines').insertAdjacentHTML('beforeend', res.data.html);
+                    addImageEvent();
+                })
+                .catch(err => console.log(err));
+        });
+    }
+});
+
+const addImageEvent = _ => {
+    renumberImages();
+    document.querySelectorAll('.--images-lines .--line:not(.--event-added)').forEach(line => {
+        line.classList.add('--event-added');
+
+
+        // remove event
+        line.querySelector('.--remove-image').addEventListener('click', e => {
+            e.target.closest('.--line').remove();
+            renumberImages();
+        });
+        // preview image
+        line.querySelector('.--image').addEventListener('change', e => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = e => {
+                line.querySelector('.--image-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        });
+    });
+}
+
+const renumberImages = _ => {
+    let i = 1;
+    document.querySelectorAll('.--images-lines .--line').forEach(line => {
+        line.querySelector('h2.--row').innerHTML = i;
+        i++;
+    });
+}

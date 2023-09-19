@@ -9,13 +9,14 @@ use App\Models\ProductInvoice;
 use Illuminate\Http\Request;
 use App\Http\Validators\InvoiceValidator;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\CountriesService as CS;
 
 class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, CS $cs)
     {
         $invoices = Invoice::select('*');
 
@@ -66,7 +67,7 @@ class InvoiceController extends Controller
 
         return view('invoices.index', [
             'invoices' => $invoices,
-            'countries' => Invoice::$countryList,
+            'countries' => $cs->getCountries(),
             'perPage' => $request->per_page ?? '15',
             'perPageOptions' => Invoice::RESULTS_PER_PAGE,
             'sortOptions' => Invoice::SORTS,
