@@ -81,9 +81,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         
-        dd($request->file('image'));
-        
-        
         $validator = (new ProductValidator())->validate($request);
         if ($validator->fails()) {
             return redirect()
@@ -92,16 +89,13 @@ class ProductController extends Controller
             ->withInput();
         }
 
-
-
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $fileName = time() . '_' . $file->getClientOriginalName();
-        //     $file->move(public_path('images'), $fileName);
-        //     $request->merge(['images' => $fileName]);
-        // }
-
-
+        $images = [];
+        foreach ($request->file('image') ?? [] as $file) {
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $fileName);
+            $images[] = $fileName;
+        }
+        $request->merge(['images' => $images]);
         
         Product::create($request->all());
         return redirect()
@@ -133,6 +127,34 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        
+        $imagesOnServer = $product->images ?? [];
+        $oldImages = $request->old_image ?? [];
+        $editedImages = $request->edited_images ?? [];
+
+
+        foreach ($editedImages as $index => $editedFileName) {
+            if ($editedFileName == 'none') {
+                continue;
+            }
+            $fileName = time() . '_' . $request->file('image')[$index]->getClientOriginalName();
+            $image->move(public_path('images'), $fileName);
+            if (file_exists(public_path('images/' . $editedFileName))) {
+                unlink(public_path('images/' . $editedFileName));
+            }
+            $imagesOnServer[$index] = $fileName;
+        }
+
+
+        // Images to delete
+        $imagesToDelete = array_diff($imagesOnServer, $oldImages);
+
+
+        dump($imagesToDelete);
+        dd($request->all());
+        
+        
+        
         
         $validator = (new ProductValidator())->validate($request);
  
@@ -166,7 +188,16 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // delete images
+        foreach ($product->images ?? [] as $image) {
+            if (file_exists(public_path('images/' . $image))) {
+                unlink(public_path('images/' . $image));
+            }
+        }
+
+        // delete product       
         $product->delete();
+
         return redirect()
         ->route('products-index')
         ->with('msg', ['type' => 'info', 'content' => 'Product was deleted successfully.']);

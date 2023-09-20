@@ -1,5 +1,4 @@
 <div class="mb-3 images-input-line --line">
-
     <div class="label">
         <h2>#</h2>
         <h2 class="--row"></h2>

@@ -220,3 +220,18 @@ h5 {
         }
     }
 }
+
+.show-images {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    img {
+        width: auto;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+}

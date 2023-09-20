@@ -19,6 +19,14 @@
                                     <div class="form-div"><b>About:</b>
                                         <small>{{$product->description}}</small>
                                     </div>
+                                    <div class="show-images">
+                                        @forelse ($product->images ?? [] as $image)
+                                        <img src="{{asset('images/'.$image)}}" alt="{{$image}}">
+                                        @empty
+                                        <p>No images</p>
+                                        @endforelse
+                                    </div>
+                                      
                                     <div class="form-div mt-3"><b>Invoices:</b>
                                         <ul class="small-list">
                                             @forelse ($product->invoices as $invoice)

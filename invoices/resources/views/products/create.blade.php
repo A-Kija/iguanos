@@ -2,6 +2,18 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="--errors-container container" style="display:none;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Error</h4>
+                <ul class="--create-product-errors error-list">
+                </ul>
+                <button type="button" class="--error-close-button btn-close" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -10,7 +22,7 @@
                     <h1>Create Product</h1>
                 </div>
                 <div class="card-body">
-                    <form action={{route('products-store')}} method="post" enctype="multipart/form-data">
+                    <form class="--create-product-form" action={{route('products-store')}} method="post" enctype="multipart/form-data">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-8">
@@ -50,7 +62,7 @@
                                 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <button type="submit" class="btn btn-outline-primary">Create Product</button>
+                                        <button type="submit" class="btn btn-outline-primary --create-product">Create Product</button>
                                     </div>
                                 </div>
                             </div>

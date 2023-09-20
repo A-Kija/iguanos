@@ -148,6 +148,7 @@ const addClientEvent = _ => {
 // ADD IMAGE INPUT LINE
 addEventListener('load', _ => {
     if (document.querySelector('.--images-lines')) {
+        addImageEvent();
         document.querySelector('.--add-image').addEventListener('click', e => {
             axios.get(e.target.dataset.url)
                 .then(res => {
@@ -172,6 +173,16 @@ const addImageEvent = _ => {
         });
         // preview image
         line.querySelector('.--image').addEventListener('change', e => {
+            const line = e.target.closest('.--line');
+            console.log(line.querySelector('[name="old_image[]"]'))
+            if (line.querySelector('[name="old_image[]"]')) {
+                const oldImageInput = line.querySelector('[name="old_image[]"]');
+                const editedImageInput = line.querySelector('[name="edited_image[]"]');
+                if (oldImageInput.value) {
+                    editedImageInput.value = oldImageInput.value;
+                    oldImageInput.value = '';
+                }
+            }
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = e => {
@@ -189,3 +200,43 @@ const renumberImages = _ => {
         i++;
     });
 }
+
+// CREATE PRODUCT VALIDATION
+addEventListener('load', _ => {
+    if (document.querySelector('.--create-product')) {
+        document.querySelector('.--error-close-button').addEventListener('click', e => {
+            document.querySelector('.--errors-container').style.display = 'none';
+        });
+        document.querySelector('.--create-product').addEventListener('click', e => {
+            e.preventDefault();
+            const form = document.querySelector('.--create-product-form');
+            const name = form.querySelector('input[name=name]');
+            const price = form.querySelector('input[name=price]');
+            const discount = form.querySelector('input[name=discount]');
+            const description = form.querySelector('textarea[name=description]');
+            const errors = [];
+            if (name.value.length < 3) {
+                errors.push('Product name must be at least 3 characters long');
+            }
+            if (isNaN(price.value) || price.value.length < 1) {
+                errors.push('Price must be a number');
+            }
+            if (isNaN(discount.value || discount.value.length < 1)) {
+                errors.push('Discount must be a number');
+            }
+            if (description.value.length < 10) {
+                errors.push('Description must be at least 10 characters long');
+            }
+            if (errors.length) {
+                document.querySelector('.--create-product-errors').innerHTML = '';
+                document.querySelector('.--errors-container').style.display = 'block';
+
+                errors.forEach(error => {
+                    document.querySelector('.--create-product-errors').insertAdjacentHTML('beforeend', '<li>' + error + '</li>');
+                });
+            } else {
+                form.submit();
+            }
+        });
+    }
+});
