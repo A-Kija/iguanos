@@ -46,11 +46,6 @@ class ProductController extends Controller
             '50' => $products->paginate(50)->withQueryString(),
             default => $products->paginate(15)->withQueryString(),
         };
-        
-
-
-
-
 
         return view('products.index', [
             'products' => $products,
@@ -131,30 +126,37 @@ class ProductController extends Controller
         $imagesOnServer = $product->images ?? [];
         $oldImages = $request->old_image ?? [];
         $editedImages = $request->edited_images ?? [];
-
-
+        $imagesToUpload = $request->file('image') ?? [];
         foreach ($editedImages as $index => $editedFileName) {
             if ($editedFileName == 'none') {
                 continue;
             }
             $fileName = time() . '_' . $request->file('image')[$index]->getClientOriginalName();
-            $image->move(public_path('images'), $fileName);
-            if (file_exists(public_path('images/' . $editedFileName))) {
-                unlink(public_path('images/' . $editedFileName));
-            }
+            $request->file('image')[$index]->move(public_path('images'), $fileName);
             $imagesOnServer[$index] = $fileName;
+            unset($imagesToUpload[$index]);
         }
-
-
         // Images to delete
         $imagesToDelete = array_diff($imagesOnServer, $oldImages);
 
+        foreach ($imagesToUpload as $file) {
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $fileName);
+            $imagesOnServer[] = $fileName;
+        }
 
-        dump($imagesToDelete);
-        dd($request->all());
-        
-        
-        
+        // Delete images
+        foreach ($imagesToDelete as $image) {
+            // delete from $imagesOnServer
+            $index = array_search($image, $imagesOnServer);
+            unset($imagesOnServer[$index]);
+            // delete from server
+            if (file_exists(public_path('images/' . $image))) {
+                unlink(public_path('images/' . $image));
+            }
+        }
+
+        $request->merge(['images' => $imagesOnServer]);
         
         $validator = (new ProductValidator())->validate($request);
  

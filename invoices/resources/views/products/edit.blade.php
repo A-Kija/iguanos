@@ -41,7 +41,7 @@
                                 </div>
 
                                 <div class="--images-lines">
-                                    @foreach ($product->images as $row => $image)
+                                    @foreach ($product->images ?? [] as $row => $image)
                                     <div class="mb-3 images-input-line --line">
                                         <div class="label">
                                             <h2>#</h2>

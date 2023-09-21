@@ -5,6 +5,7 @@ use App\Http\Controllers\InvoiceController as I;
 use App\Http\Controllers\ClientController as C;
 use App\Http\Controllers\ProductController as P;
 use App\Http\Controllers\HomeController as H;
+use App\Http\Controllers\TagController as T;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,12 @@ Route::prefix('products')->name('products-')->group(function () {
     Route::get('/show-line', [P::class, 'showLine'])->name('show-line')->middleware('role:admin|manager'); // show one empty image line
 });
 
+Route::prefix('tags')->name('tags-')->group(function () {
+    Route::get('/', [T::class, 'index'])->name('index')->middleware('role:admin|manager|user'); // all tags
+    Route::get('/list', [T::class, 'list'])->name('list')->middleware('role:admin|manager|user'); // list tags
+    Route::post('/', [T::class, 'store'])->name('store')->middleware('role:admin|manager'); // store new tag
+
+});
 
 // Client search with axios
 Route::get('/clients/search', [C::class, 'search'])->name('clients-search')->middleware('role:admin|manager|user');

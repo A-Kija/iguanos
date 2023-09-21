@@ -240,3 +240,35 @@ addEventListener('load', _ => {
         });
     }
 });
+
+// TAGS
+addEventListener('load', _ => {
+    if (document.querySelector('.--tags')) {
+        // new
+        document.querySelector('.--add-tag').addEventListener('click', e => {
+            axios.post(e.target.dataset.url, {
+                tag: document.querySelector('[name=tag]').value
+            })
+                .then(res => {
+                    document.querySelector('[name=tag]').value = '';
+                    getTagsList();
+                })
+                .catch(err => console.log(err));
+        })
+
+
+
+
+    }
+    const getTagsList = _ => {
+        const tagsListBin = document.querySelector('.--tags-list-bin');
+        axios.get(document.querySelector('.--tags-list-bin').dataset.url)
+            .then(res => {
+                tagsListBin.innerHTML = res.data.html;
+                // addTagEvent();
+            })
+            .catch(err => console.log(err));
+    }
+
+    getTagsList();
+});
