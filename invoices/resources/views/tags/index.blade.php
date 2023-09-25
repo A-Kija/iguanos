@@ -19,7 +19,8 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <button type="button" class="--add-tag btn btn-outline-primary" data-url={{route('tags-store')}}>Create Tag</button>
+                                    <button type="button" class="--add-tag btn btn-outline-primary"
+                                        data-url={{route('tags-store')}}>Create Tag</button>
                                 </div>
                             </div>
                         </div>
@@ -32,10 +33,14 @@
                 <div class="card-header">
                     <h1>Tags</h1>
                 </div>
-                <div class="--tags-list-bin card-body" data-url="{{route('tags-list')}}">
-                    <div class="loader">
-                        <div class="spin"></div>
-                        <div class="bounce"></div>
+                <div class="loder-bin">
+                    <div class="cover --cover">
+                        <div class="loader">
+                            <div class="spin"></div>
+                            <div class="bounce"></div>
+                        </div>
+                    </div>
+                    <div class="--tags-list-bin card-body" data-url="{{route('tags-list')}}">
                     </div>
                 </div>
             </div>

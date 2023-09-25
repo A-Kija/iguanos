@@ -243,9 +243,50 @@ addEventListener('load', _ => {
 
 // TAGS
 addEventListener('load', _ => {
+
+    const addTagEvent = _ => {
+        // remove
+        document.querySelectorAll('.--remove-tag').forEach(tag => {
+            tag.addEventListener('click', e => {
+                document.querySelector('.--cover').style.display = 'flex';
+                axios.delete(e.target.dataset.url)
+                    .then(res => {
+                        getTagsList();
+                    })
+                    .catch(err => console.log(err));
+            });
+        });
+        // update
+        document.querySelectorAll('.--update-tag').forEach(tag => {
+            tag.addEventListener('click', e => {
+                document.querySelector('.--cover').style.display = 'flex';
+                axios.put(e.target.dataset.url, {
+                    tag: e.target.closest('.--tag').querySelector('h4').innerText
+                })
+                    .then(res => {
+                        document.querySelector('.--cover').style.display = 'none';
+                    })
+                    .catch(err => {
+                        document.querySelector('.--cover').style.display = 'none';
+                        const errorClass = '--tag-row-' + err.response.data.id;
+                        document.querySelector('.' + errorClass).classList.add('error');
+                        console.log(err)
+                    });
+            });
+        });
+        // remove error
+        document.querySelectorAll('.--tag h4').forEach(tag => {
+            tag.addEventListener('focus', _ => {
+                tag.closest('.--tag').classList.remove('error');
+            });
+        });
+    }
+
+
     if (document.querySelector('.--tags')) {
         // new
         document.querySelector('.--add-tag').addEventListener('click', e => {
+            document.querySelector('.--cover').style.display = 'flex';
             axios.post(e.target.dataset.url, {
                 tag: document.querySelector('[name=tag]').value
             })
@@ -265,10 +306,48 @@ addEventListener('load', _ => {
         axios.get(document.querySelector('.--tags-list-bin').dataset.url)
             .then(res => {
                 tagsListBin.innerHTML = res.data.html;
-                // addTagEvent();
+                document.querySelector('.--cover').style.display = 'none';
+                addTagEvent();
             })
             .catch(err => console.log(err));
     }
 
-    getTagsList();
+    if (document.querySelector('.--tags')) {
+        getTagsList();
+    }
+});
+
+//ADD TAGS TO PRODUCT
+addEventListener('load', _ => {
+
+    const addTagEvent = _ => {
+        document.querySelectorAll('.--products-index .--remove-tag').forEach(tag => {
+            tag.addEventListener('click', e => {
+                axios.delete(e.target.dataset.url)
+                    .then(res => {
+                        e.target.closest('span').remove();
+                    })
+                    .catch(err => console.log(err));
+            });
+        });
+    }
+
+
+    if (document.querySelector('.--products-index')) {
+        document.querySelectorAll('.--product-tags').forEach(tag => {
+            const input = tag.querySelector('input');
+            const button = tag.querySelector('button');
+            button.addEventListener('click', e => {
+                axios.post(e.target.dataset.url, {
+                    tag: input.value
+                })
+                    .then(res => {
+                        input.value = '';
+                        tag.querySelector('.--list').insertAdjacentHTML('beforeend', res.data.html);
+                        addTagEvent();
+                    })
+                    .catch(err => console.log(err));
+            });
+        });
+    }
 });

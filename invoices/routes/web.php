@@ -75,6 +75,10 @@ Route::prefix('tags')->name('tags-')->group(function () {
     Route::get('/', [T::class, 'index'])->name('index')->middleware('role:admin|manager|user'); // all tags
     Route::get('/list', [T::class, 'list'])->name('list')->middleware('role:admin|manager|user'); // list tags
     Route::post('/', [T::class, 'store'])->name('store')->middleware('role:admin|manager'); // store new tag
+    Route::delete('/{tag}', [T::class, 'destroy'])->name('destroy')->middleware('role:admin|manager'); // delete existing tag
+    Route::put('/{tag}', [T::class, 'update'])->name('update')->middleware('role:admin|manager'); // update existing tag
+    // add tag to product
+    Route::post('/product-add/{product}', [T::class, 'productAdd'])->name('product-add')->middleware('role:admin|manager'); // add tag to product
 
 });
 

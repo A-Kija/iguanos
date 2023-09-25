@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -15,6 +16,9 @@ class TagController extends Controller
 
     public function list()
     {
+        
+        sleep(1);
+        
         $html = view('tags.list')->with(['tags' => Tag::all()])->render();
         return response()->json(['html' => $html]);
     }
@@ -39,27 +43,43 @@ class TagController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tag $tag)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
+    public function update(Request $request, Tag $tag)
     {
-        //
+        $tagModel = Tag::where('tag', $request->tag)->first();
+        if ($tagModel) {
+            return response()->json([
+                'message' => 'Tag already exists',
+                'id' => $tag->id,
+            ], 422);
+        }
+        $tag->update(['tag' => $request->tag]);
+        return response()->json([
+            'message' => 'Tag updated',
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+        return response()->json([
+            'message' => 'Tag deleted',
+        ]); 
+    }
+
+    public function productAdd(Request $request, Product $product)
+    {
+        $result = Tag::newTag($request->tag);
+        $tag = $result[0];
+        
+        $product->tags()->attach($tag->id);
+        $html = view('tags.badge')->with(['tag' => $tag])->render();
+        return response()->json([
+            'message' => 'Tag added',
+            'html' => $html,
+        ]);
     }
 }

@@ -17,11 +17,11 @@ class Tag extends Model
         // if tag exists, return it
         $tagModel = self::where('tag', $tag)->first();
         if ($tagModel) {
-            return [$tag, false];
+            return [$tagModel, false];
         }
         // if tag does not exist, create it
         $tagModel = self::create(['tag' => $tag]);
-        return [$tag, true];
+        return [$tagModel, true];
     }
    
 }

@@ -1,0 +1,1 @@
+<span class="tag-badge">{{$tag->tag}} <i>X</i></span>

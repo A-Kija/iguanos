@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container --products-index">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -37,10 +37,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="m-2">
-                                    <label class="form-label">Min Max price: <span id="min">{{$selectedMin}}</span> - <span id="max">{{$selectedMax}}</span></label>
+                                    <label class="form-label">Min Max price: <span id="min">{{$selectedMin}}</span> -
+                                        <span id="max">{{$selectedMax}}</span></label>
                                     <div class="slider-box">
-                                        <input type="range" class="slider" name="min" value="{{$selectedMin}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
-                                        <input type="range" class="slider" name="max" value="{{$selectedMax}}" min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                        <input type="range" class="slider" name="min" value="{{$selectedMin}}"
+                                            min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
+                                        <input type="range" class="slider" name="max" value="{{$selectedMax}}"
+                                            min="{{$minProductPrice}}" max="{{$maxProductPrice}}">
                                     </div>
                                 </div>
                             </div>
@@ -115,6 +118,21 @@
                                         <a href="{{route('products-delete', $product->id)}}"
                                             class="btn btn-danger">Delete</a>
                                         @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="--product-tags product-tags">
+                                <div class="product-tags-list --list">
+                                    @foreach ($product->tags as $tag)
+                                    <span class="tag-badge">{{$tag->tag}} <i class="--remove-tag">X</i></span>
+                                    @endforeach
+                                </div>
+                                <div class="--add-tag add-tag">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="tag">
+                                        <button class="btn btn-outline-secondary"
+                                            data-url="{{route('tags-product-add', $product)}}"
+                                            type="button">Add</button>
                                     </div>
                                 </div>
                             </div>
