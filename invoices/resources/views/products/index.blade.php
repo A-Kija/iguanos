@@ -124,7 +124,7 @@
                             <div class="--product-tags product-tags">
                                 <div class="product-tags-list --list">
                                     @foreach ($product->tags as $tag)
-                                    <span class="tag-badge">{{$tag->tag}} <i class="--remove-tag">X</i></span>
+                                    <span class="tag-badge">{{$tag->tag}} <i class="--remove-tag" data-url="{{route('tags-product-remove', [$product, $tag])}}">X</i></span>
                                     @endforeach
                                 </div>
                                 <div class="--add-tag add-tag">

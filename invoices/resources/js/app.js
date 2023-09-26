@@ -320,18 +320,21 @@ addEventListener('load', _ => {
 //ADD TAGS TO PRODUCT
 addEventListener('load', _ => {
 
-    const addTagEvent = _ => {
-        document.querySelectorAll('.--products-index .--remove-tag').forEach(tag => {
+
+
+    const addProductTagEvent = _ => {
+        document.querySelectorAll('.--products-index .--remove-tag:not(.--event-added)').forEach(tag => {
+            tag.classList.add('--event-added');
             tag.addEventListener('click', e => {
+                e.target.closest('span').remove();
                 axios.delete(e.target.dataset.url)
                     .then(res => {
-                        e.target.closest('span').remove();
+                        console.log(res);
                     })
                     .catch(err => console.log(err));
             });
         });
     }
-
 
     if (document.querySelector('.--products-index')) {
         document.querySelectorAll('.--product-tags').forEach(tag => {
@@ -344,10 +347,13 @@ addEventListener('load', _ => {
                     .then(res => {
                         input.value = '';
                         tag.querySelector('.--list').insertAdjacentHTML('beforeend', res.data.html);
-                        addTagEvent();
+                        addProductTagEvent();
                     })
                     .catch(err => console.log(err));
             });
         });
+        addProductTagEvent();
     }
+
+    
 });

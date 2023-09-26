@@ -76,10 +76,22 @@ class TagController extends Controller
         $tag = $result[0];
         
         $product->tags()->attach($tag->id);
-        $html = view('tags.badge')->with(['tag' => $tag])->render();
+        $html = view('tags.badge')->with([
+            'tag' => $tag,
+            'product' => $product,
+            ])->render();
         return response()->json([
             'message' => 'Tag added',
             'html' => $html,
+        ]);
+    }
+
+    public function productRemove(Request $request, Product $product)
+    {
+        $tag = Tag::find($request->tag);
+        $product->tags()->detach($tag->id);
+        return response()->json([
+            'message' => 'Tag removed',
         ]);
     }
 }
