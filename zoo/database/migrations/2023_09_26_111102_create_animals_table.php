@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('color', 7);
             $table->decimal('weight', 5, 2);
-            $table->enum('eat', ['carnivore', 'herbivore', 'omnivore']);
+            $table->enum('food', ['carnivore', 'herbivore', 'omnivore']);
         });
     }
 

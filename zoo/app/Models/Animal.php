@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Animal extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'color',
+        'weight',
+        'food'
+    ];
+
+    protected $casts = [
+        'weight' => 'float'
+    ];
+
+    public $timestamps = false;
+
 }

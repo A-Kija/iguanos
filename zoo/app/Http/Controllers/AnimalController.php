@@ -15,56 +15,37 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Animals/Index', [
-            'animals' => Animal::all(),
+        return Inertia::render('Animals/Index');
+    }
+
+    public function list()
+    {
+        return response()->json([
+            'animals' => Animal::all()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        Animal::create($request->all());
+        return response()->json([
+            'message' => 'Animal created successfully'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAnimalRequest $request)
+    public function update(Request $request, Animal $animal)
     {
-        //
+        $animal->update($request->all());
+        return response()->json([
+            'message' => 'Animal updated successfully'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Animal $animal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Animal $animal)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAnimalRequest $request, Animal $animal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Animal $animal)
     {
-        //
+        $animal->delete();
+        return response()->json([
+            'message' => 'Animal deleted successfully'
+        ]);
     }
 }

@@ -29,10 +29,8 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'animals'], function () {
     Route::get('/', [A::class, 'index'])->name('animals.index');
-    Route::get('/create', [A::class, 'create'])->name('animals.create');
+    Route::get('/list', [A::class, 'list'])->name('animals.list');
     Route::post('/', [A::class, 'store'])->name('animals.store');
-    Route::get('/{animal}', [A::class, 'show'])->name('animals.show');
-    Route::get('/{animal}/edit', [A::class, 'edit'])->name('animals.edit');
     Route::put('/{animal}', [A::class, 'update'])->name('animals.update');
     Route::delete('/{animal}', [A::class, 'destroy'])->name('animals.destroy');
 });

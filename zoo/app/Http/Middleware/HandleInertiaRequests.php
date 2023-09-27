@@ -39,7 +39,12 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'title' => 'Zoo',
+            'url' => [
+                'base' => url(''),
+                'current' => url()->current(),
+                'full' => url()->full(),
+                'previous' => url()->previous(),
+            ]
         ];
     }
 }
